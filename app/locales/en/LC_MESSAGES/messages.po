@@ -4,18 +4,239 @@ msgstr ""
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Dashboard"
 msgstr "Dashboard"
 
+msgid "Chart of Accounts"
+msgstr "Chart of Accounts"
+
 msgid "Journal Entries"
 msgstr "Journal Entries"
+
+msgid "Supplier Bills"
+msgstr "Supplier Bills"
+
+msgid "Reporting"
+msgstr "Reporting"
+
+msgid "Grand Livre"
+msgstr "General Ledger"
+
+msgid "Balance Générale"
+msgstr "Trial Balance"
+
+msgid "Clôture & FX"
+msgstr "Closing & FX"
+
+msgid "Devises (FX)"
+msgstr "Currencies (FX)"
+
+msgid "Fonds / Bailleurs"
+msgstr "Funds / Donors"
+
+msgid "Suivi Budgétaire"
+msgstr "Budget Tracking"
 
 msgid "Settings"
 msgstr "Settings"
 
-msgid "Language"
-msgstr "Language"
+msgid "Logout"
+msgstr "Logout"
 
-msgid "Chart of Accounts"
-msgstr "Chart of Accounts"
+msgid "New Journal Entry"
+msgstr "New Journal Entry"
+
+msgid "Journal"
+msgstr "Journal"
+
+msgid "Fiscal Year"
+msgstr "Fiscal Year"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Month"
+msgstr "Month"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Third Party"
+msgstr "Third Party"
+
+msgid "Currency"
+msgstr "Currency"
+
+msgid "Rate"
+msgstr "Rate"
+
+msgid "Debit (XAF)"
+msgstr "Debit (XAF)"
+
+msgid "Credit (XAF)"
+msgstr "Credit (XAF)"
+
+msgid "Fund"
+msgstr "Fund"
+
+msgid "General"
+msgstr "General"
+
+msgid "Add Line"
+msgstr "Add Line"
+
+msgid "Total Debit"
+msgstr "Total Debit"
+
+msgid "Total Credit"
+msgstr "Total Credit"
+
+msgid "Difference"
+msgstr "Difference"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Save Draft"
+msgstr "Save Draft"
+
+msgid "Grand Livre (General Ledger)"
+msgstr "General Ledger"
+
+msgid "Exercice"
+msgstr "Fiscal Year"
+
+msgid "Tous"
+msgstr "All"
+
+msgid "Compte"
+msgstr "Account"
+
+msgid "Du"
+msgstr "From"
+
+msgid "Au"
+msgstr "To"
+
+msgid "Filtrer"
+msgstr "Filter"
+
+msgid "Pièce"
+msgstr "Voucher"
+
+msgid "Libellé"
+msgstr "Description"
+
+msgid "Tiers"
+msgstr "Third Party"
+
+msgid "Devise"
+msgstr "Currency"
+
+msgid "Montant Devise"
+msgstr "Foreign Amount"
+
+msgid "Aucune écriture trouvée pour ces critères."
+msgstr "No entries found for these criteria."
+
+msgid "Balance Générale (Trial Balance)"
+msgstr "Trial Balance"
+
+msgid "À Nouveau (Ouverture)"
+msgstr "Opening Balance"
+
+msgid "Mouvements (Période)"
+msgstr "Movements (Period)"
+
+msgid "Solde (Clôture)"
+msgstr "Closing Balance"
+
+msgid "Débit"
+msgstr "Debit"
+
+msgid "Crédit"
+msgstr "Credit"
+
+msgid "Totaux"
+msgstr "Totals"
+
+msgid "BALANCED (Équilibré)"
+msgstr "Balanced"
+
+msgid "UNBALANCED (Déséquilibré)"
+msgstr "Unbalanced"
+
+msgid "Clôture des Périodes & Réévaluation FX"
+msgstr "Period Closing & FX Revaluation"
+
+msgid "Périodes Comptables"
+msgstr "Accounting Periods"
+
+msgid "Période"
+msgstr "Period"
+
+msgid "Début"
+msgstr "Start"
+
+msgid "Fin"
+msgstr "End"
+
+msgid "Statut"
+msgstr "Status"
+
+msgid "Clôturé Par"
+msgstr "Closed By"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Ouvert"
+msgstr "Open"
+
+msgid "Verrouillé"
+msgstr "Locked"
+
+msgid "Fermé"
+msgstr "Closed"
+
+msgid "Par"
+msgstr "By"
+
+msgid "le"
+msgstr "on"
+
+msgid "Clôturer"
+msgstr "Close"
+
+msgid "Fermer Définitivement"
+msgstr "Close Permanently"
+
+msgid "Réévaluation des Écarts de Conversion (FX)"
+msgstr "FX Translation Revaluation"
+
+msgid "Lancer la Réévaluation FX"
+msgstr "Run FX Revaluation"
+
+msgid "Connexion"
+msgstr "Login"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Mot de passe"
+msgstr "Password"
+
+msgid "Se connecter"
+msgstr "Sign in"
+
+msgid "Email ou mot de passe invalide"
+msgstr "Invalid email or password"

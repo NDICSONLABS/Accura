@@ -1,0 +1,51 @@
+<tr id="period-row-{{ period.id }}" class="hover:bg-gray-50 transition-colors">
+    <td class="p-3 font-medium">{{ period.period_number }}</td>
+    <td class="p-3 whitespace-nowrap">{{ period.start_date.strftime('%d/%m/%Y') }}</td>
+    <td class="p-3 whitespace-nowrap">{{ period.end_date.strftime('%d/%m/%Y') }}</td>
+    <td class="p-3">
+        {% if period.status.value == 'OPEN' %}
+            <span class="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                {{ _("Ouvert") }}
+            </span>
+        {% elif period.status.value == 'SOFT_LOCKED' %}
+            <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                {{ _("Verrouillé") }}
+            </span>
+        {% elif period.status.value == 'CLOSED' %}
+            <span class="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                {{ _("Fermé") }}
+            </span>
+        {% endif %}
+    </td>
+    <td class="p-3 text-gray-500 text-sm">
+        {% if period.closed_by_id %}
+            {{ _("Par") }} ID:{{ period.closed_by_id }}
+            {% if period.closed_at %}
+                {{ _("le") }} {{ period.closed_at.strftime('%d/%m/%Y %H:%M') }}
+            {% endif %}
+        {% else %}-{% endif %}
+    </td>
+    <td class="p-3 text-right">
+        {% if period.status.value == 'OPEN' %}
+            <button
+                hx-post="/reporting/close-period/{{ period.id }}"
+                hx-target="#period-row-{{ period.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="{{ _('Êtes-vous sûr de vouloir clôturer cette période ? Cette action est irréversible.') }}"
+                class="bg-red-600 text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-red-700 transition shadow-sm">
+                {{ _("Clôturer") }}
+            </button>
+        {% elif period.status.value == 'SOFT_LOCKED' %}
+            <button
+                hx-post="/reporting/close-period/{{ period.id }}"
+                hx-target="#period-row-{{ period.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="{{ _('Êtes-vous sûr de vouloir fermer définitivement cette période ?') }}"
+                class="bg-red-700 text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-red-800 transition shadow-sm">
+                {{ _("Fermer Définitivement") }}
+            </button>
+        {% else %}
+            <span class="text-gray-400 text-xs italic">{{ _("Verrouillé") }}</span>
+        {% endif %}
+    </td>
+</tr>

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("Balance Générale (Trial Balance)") }}</h1>
+    
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3" rowspan="2">Compte</th>
+                    <th class="p-3" rowspan="2">Libellé</th>
+                    <th class="p-3 text-center" colspan="2">À Nouveau (Ouverture)</th>
+                    <th class="p-3 text-center" colspan="2">Mouvements (Période)</th>
+                    <th class="p-3 text-center" colspan="2">Solde (Clôture)</th>
+                </tr>
+                <tr class="text-slate-300">
+                    <th class="p-2 text-right">Débit</th>
+                    <th class="p-2 text-right">Crédit</th>
+                    <th class="p-2 text-right">Débit</th>
+                    <th class="p-2 text-right">Crédit</th>
+                    <th class="p-2 text-right">Débit</th>
+                    <th class="p-2 text-right">Crédit</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+                {% set totals = {'op_d': 0, 'op_c': 0, 'mv_d': 0, 'mv_c': 0, 'cl_d': 0, 'cl_c': 0} %}
+                {% for row in rows %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="p-3 font-mono font-medium">{{ row.account_code }}</td>
+                        <td class="p-3">{{ row.account_label }}</td>
+                        <td class="p-3 text-right text-gray-500">{{ "{:,.0f}".format(row.opening_debit) }}</td>
+                        <td class="p-3 text-right text-gray-500">{{ "{:,.0f}".format(row.opening_credit) }}</td>
+                        <td class="p-3 text-right font-medium">{{ "{:,.0f}".format(row.movement_debit) }}</td>
+                        <td class="p-3 text-right font-medium">{{ "{:,.0f}".format(row.movement_credit) }}</td>
+                        <td class="p-3 text-right font-bold text-blue-700">{{ "{:,.0f}".format(row.closing_debit) }}</td>
+                        <td class="p-3 text-right font-bold text-red-700">{{ "{:,.0f}".format(row.closing_credit) }}</td>
+                    </tr>
+                    {% set _ = totals.update({
+                        'op_d': totals.op_d + row.opening_debit, 'op_c': totals.op_c + row.opening_credit,
+                        'mv_d': totals.mv_d + row.movement_debit, 'mv_c': totals.mv_c + row.movement_credit,
+                        'cl_d': totals.cl_d + row.closing_debit, 'cl_c': totals.cl_c + row.closing_credit
+                    }) %}
+                {% endfor %}
+            </tbody>
+            <tfoot class="bg-slate-100 font-bold border-t-2 border-slate-800">
+                <tr>
+                    <td colspan="2" class="p-3 text-right uppercase">Totaux</td>
+                    <td class="p-3 text-right">{{ "{:,.0f}".format(totals.op_d) }}</td>
+                    <td class="p-3 text-right">{{ "{:,.0f}".format(totals.op_c) }}</td>
+                    <td class="p-3 text-right">{{ "{:,.0f}".format(totals.mv_d) }}</td>
+                    <td class="p-3 text-right">{{ "{:,.0f}".format(totals.mv_c) }}</td>
+                    <td class="p-3 text-right text-blue-800">{{ "{:,.0f}".format(totals.cl_d) }}</td>
+                    <td class="p-3 text-right text-red-800">{{ "{:,.0f}".format(totals.cl_c) }}</td>
+                </tr>
+                <tr class="text-xs text-center">
+                    <td colspan="8" class="p-2">
+                        {% if totals.mv_d == totals.mv_c and totals.cl_d == totals.cl_c %}
+                            <span class="text-green-600 font-bold">✅ BALANCED (Équilibré)</span>
+                        {% else %}
+                            <span class="text-red-600 font-bold">❌ UNBALANCED (Déséquilibré)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}

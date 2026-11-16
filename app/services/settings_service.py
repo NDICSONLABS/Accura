@@ -1,9 +1,8 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import func, or_
 from app.models.settings import OrganizationSetting
 from app.models.ledger import JournalEntry, JournalLine
 from app.models.enums import EntryStatus, BudgetEnforcementMode
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class SettingsUpdateSchema(BaseModel):
@@ -16,10 +15,52 @@ class SettingsUpdateSchema(BaseModel):
     tax_withholding_enabled: bool
 
 
+# Canonical keys + safe defaults for a JSON-safe settings representation.
+_SETTINGS_KEYS = {
+    "multi_currency_enabled": False,
+    "donor_fund_tracking_enabled": False,
+    "project_cost_center_enabled": False,
+    "budget_control_enabled": False,
+    "budget_enforcement_mode": "NONE",
+    "maker_checker_approval_enabled": False,
+    "tax_withholding_enabled": False,
+}
+
+
+def settings_to_dict(settings) -> dict:
+    """
+    Convert an OrganizationSetting (SQLAlchemy object), a dict, or None into a
+    consistent, JSON-safe plain dict. This is the SINGLE source of truth for
+    serializing feature flags to templates and Alpine.js.
+    """
+    if settings is None:
+        return dict(_SETTINGS_KEYS)
+
+    if isinstance(settings, dict):
+        merged = dict(_SETTINGS_KEYS)
+        for key in _SETTINGS_KEYS:
+            if key in settings and settings[key] is not None:
+                merged[key] = settings[key]
+        return merged
+
+    # SQLAlchemy ORM object
+    mode = getattr(settings, "budget_enforcement_mode", None)
+    mode_value = mode.value if hasattr(mode, "value") else (mode or "NONE")
+
+    return {
+        "multi_currency_enabled": bool(getattr(settings, "multi_currency_enabled", False)),
+        "donor_fund_tracking_enabled": bool(getattr(settings, "donor_fund_tracking_enabled", False)),
+        "project_cost_center_enabled": bool(getattr(settings, "project_cost_center_enabled", False)),
+        "budget_control_enabled": bool(getattr(settings, "budget_control_enabled", False)),
+        "budget_enforcement_mode": mode_value,
+        "maker_checker_approval_enabled": bool(getattr(settings, "maker_checker_approval_enabled", False)),
+        "tax_withholding_enabled": bool(getattr(settings, "tax_withholding_enabled", False)),
+    }
+
+
 def get_settings(db: Session) -> OrganizationSetting:
     settings = db.query(OrganizationSetting).first()
     if not settings:
-        # Fallback seed if somehow missing
         settings = OrganizationSetting()
         db.add(settings)
         db.commit()
@@ -30,7 +71,7 @@ def get_settings(db: Session) -> OrganizationSetting:
 def update_settings(db: Session, updates: SettingsUpdateSchema) -> OrganizationSetting:
     settings = get_settings(db)
 
-    # SAFE TOGGLE LOCKING: Check for existing posted multi-currency or multi-fund transactions
+    # SAFE TOGGLE LOCKING: Block disabling features that already have posted transactions.
     if settings.multi_currency_enabled and not updates.multi_currency_enabled:
         has_fx = db.query(JournalLine).join(JournalEntry).filter(
             JournalEntry.status == EntryStatus.POSTED,
@@ -47,7 +88,6 @@ def update_settings(db: Session, updates: SettingsUpdateSchema) -> OrganizationS
         if has_funds:
             raise ValueError("Cannot disable donor tracking: Posted transactions with specific funds exist.")
 
-    # Apply updates
     for field, value in updates.model_dump().items():
         setattr(settings, field, value)
 
