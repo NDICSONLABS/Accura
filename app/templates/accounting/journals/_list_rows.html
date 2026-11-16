@@ -1,0 +1,40 @@
+{% for entry, journal, period, creator in rows %}
+    <tr class="hover:bg-blue-50 transition-colors">
+        <td class="p-3 whitespace-nowrap">{{ entry.entry_date.strftime('%d/%m/%Y') }}</td>
+        <td class="p-3 font-mono">
+            <a href="/accounting/journals/{{ entry.id }}" class="text-blue-600 hover:underline">
+                {{ entry.voucher_number }}
+            </a>
+        </td>
+        <td class="p-3">
+            <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">
+                {{ journal.code }}
+            </span>
+        </td>
+        <td class="p-3 text-gray-600 max-w-md truncate" title="{{ entry.description }}">
+            {{ entry.description }}
+        </td>
+        <td class="p-3 text-gray-500 text-xs">{{ creator.email }}</td>
+        <td class="p-3">
+            {% if entry.status.value == 'POSTED' %}
+                <span class="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {{ _("Posted") }}
+                </span>
+            {% elif entry.status.value == 'DRAFT' %}
+                <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {{ _("Draft") }}
+                </span>
+            {% else %}
+                <span class="bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {{ entry.status.value }}
+                </span>
+            {% endif %}
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="6" class="p-8 text-center text-gray-500 italic">
+            {{ _("No journal entries found.") }}
+        </td>
+    </tr>
+{% endfor %}

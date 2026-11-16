@@ -1,97 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="max-w-7xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">{{ _("Grand Livre (General Ledger)") }}</h1>
-    </div>
+    <h1 class="text-2xl font-bold mb-6">{{ _("Grand Livre") }}</h1>
 
-    <!-- Filters -->
     <div class="bg-white p-4 rounded-lg shadow mb-6">
-        <form hx-get="/reporting/gl" hx-target="#gl-table-container" hx-swap="innerHTML" class="flex flex-wrap gap-4 items-end">
+        <form
+            hx-get="/reporting/gl"
+            hx-target="#gl-table"
+            hx-swap="innerHTML"
+            class="flex flex-wrap gap-4 items-end"
+        >
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Exercice") }}</label>
-                <select name="fy_id" class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border" onchange="this.form.requestSubmit()">
-                    <option value="">{{ _("Tous") }}</option>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ _("Fiscal Year") }}
+                </label>
+
+                <select name="fy_id" class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border">
+                    <option value="">{{ _("All") }}</option>
                     {% for fy in fiscal_years %}
-                        <option value="{{ fy.id }}" {% if filters.fiscal_year_id == fy.id %}selected{% endif %}>{{ fy.code }}</option>
+                        <option value="{{ fy.id }}" {% if filters.fiscal_year_id == fy.id %}selected{% endif %}>
+                            {{ fy.code }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Compte") }}</label>
-                <input type="text" name="acc_id" value="{{ filters.account_id or '' }}" placeholder="ID Compte" 
-                       class="block w-32 rounded-md border-gray-300 shadow-sm p-2 border">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ _("Account ID") }}
+                </label>
+
+                <input
+                    type="text"
+                    name="acc_id"
+                    value="{{ filters.account_id or '' }}"
+                    class="block w-32 rounded-md border-gray-300 shadow-sm p-2 border"
+                >
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Du") }}</label>
-                <input type="date" name="date_from" value="{{ filters.date_from or '' }}" class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ _("From") }}
+                </label>
+
+                <input
+                    type="date"
+                    name="date_from"
+                    value="{{ filters.date_from or '' }}"
+                    class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border"
+                >
             </div>
+
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Au") }}</label>
-                <input type="date" name="date_to" value="{{ filters.date_to or '' }}" class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border">
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ _("To") }}
+                </label>
+
+                <input
+                    type="date"
+                    name="date_to"
+                    value="{{ filters.date_to or '' }}"
+                    class="block w-40 rounded-md border-gray-300 shadow-sm p-2 border"
+                >
             </div>
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition font-medium">
-                {{ _("Filtrer") }}
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                {{ _("Filter") }}
             </button>
         </form>
     </div>
 
-    <!-- Ledger Table -->
-    <div id="gl-table-container" class="bg-white shadow rounded-lg overflow-x-auto">
-        <table class="w-full text-sm text-left tabular-nums">
-            <thead class="bg-slate-800 text-white uppercase text-xs">
-                <tr>
-                    <th class="p-3">{{ _("Date") }}</th>
-                    <th class="p-3">{{ _("Pièce") }}</th>
-                    <th class="p-3">{{ _("Journal") }}</th>
-                    <th class="p-3">{{ _("Compte") }}</th>
-                    <th class="p-3">{{ _("Libellé") }}</th>
-                    <th class="p-3">{{ _("Tiers") }}</th>
-                    <th class="p-3 text-right">{{ _("Débit (XAF)") }}</th>
-                    <th class="p-3 text-right">{{ _("Crédit (XAF)") }}</th>
-                    <th class="p-3 text-right">{{ _("Devise") }}</th>
-                    <th class="p-3 text-right">{{ _("Montant Devise") }}</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 bg-white">
-                {% for line, entry, account, third_party in rows %}
-                    <tr class="hover:bg-blue-50 transition-colors">
-                        <td class="p-3 whitespace-nowrap">{{ entry.entry_date.strftime('%d/%m/%Y') }}</td>
-                        <td class="p-3 whitespace-nowrap">
-                            <a href="/accounting/journals/{{ entry.id }}" class="text-blue-600 hover:text-blue-800 hover:underline font-mono">
-                                {{ entry.voucher_number }}
-                            </a>
-                        </td>
-                        <td class="p-3">
-                            <span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">
-                                {{ entry.journal_id }}
-                            </span>
-                        </td>
-                        <td class="p-3 font-mono font-medium text-slate-800">{{ account.code }}</td>
-                        <td class="p-3 text-gray-600 max-w-xs truncate" title="{{ line.description }}">{{ line.description or entry.description }}</td>
-                        <td class="p-3 text-gray-500">{{ third_party.name if third_party else '-' }}</td>
-                        <td class="p-3 text-right font-medium text-green-700">
-                            {% if line.base_debit > 0 %}{{ "{:,.0f}".format(line.base_debit) }}{% else %}-{% endif %}
-                        </td>
-                        <td class="p-3 text-right font-medium text-red-700">
-                            {% if line.base_credit > 0 %}{{ "{:,.0f}".format(line.base_credit) }}{% else %}-{% endif %}
-                        </td>
-                        <td class="p-3 text-right text-gray-500">{{ line.currency_code }}</td>
-                        <td class="p-3 text-right text-gray-500">
-                            {% if line.currency_code != 'XAF' %}
-                                {{ "{:,.2f}".format(line.foreign_debit + line.foreign_credit) }} @ {{ line.exchange_rate }}
-                            {% else %}-{% endif %}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="10" class="p-8 text-center text-gray-500 italic">
-                            {{ _("Aucune écriture trouvée pour ces critères.") }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div id="gl-table" class="bg-white shadow rounded-lg overflow-x-auto">
+        {% include "reporting/_gl_table.html" %}
     </div>
 </div>
 {% endblock %}

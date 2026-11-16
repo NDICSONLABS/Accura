@@ -1,0 +1,9 @@
+{% for account in accounts %}
+    {% include "accounting/_coa_row.html" %}
+{% else %}
+    <tr>
+        <td colspan="7" class="p-8 text-center text-gray-500 italic">
+            {{ _("No accounts found.") }}
+        </td>
+    </tr>
+{% endfor %}

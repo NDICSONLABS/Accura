@@ -1,0 +1,63 @@
+<table class="w-full text-sm text-left tabular-nums">
+    <thead class="bg-slate-800 text-white uppercase text-xs">
+        <tr>
+            <th class="p-3">{{ _("Budget Line") }}</th>
+            <th class="p-3">{{ _("Account") }}</th>
+            <th class="p-3 text-right">{{ _("Approved Budget") }}</th>
+            <th class="p-3 text-right">{{ _("Committed") }}</th>
+            <th class="p-3 text-right">{{ _("Actual Posted") }}</th>
+            <th class="p-3 text-right">{{ _("Remaining") }}</th>
+            <th class="p-3 w-48">{{ _("Burn Rate") }}</th>
+        </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200 bg-white">
+        {% for row in rows %}
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="p-3 font-medium">{{ row.account_label }}</td>
+                <td class="p-3 font-mono text-gray-600">{{ row.account_code }}</td>
+
+                <td class="p-3 text-right font-medium">
+                    {{ row.approved_budget | fmoney(display_currency) }}
+                    {{ display_currency }}
+                </td>
+
+                <td class="p-3 text-right text-yellow-700">
+                    {{ row.committed | fmoney(display_currency) }}
+                </td>
+
+                <td class="p-3 text-right font-bold text-blue-700">
+                    {{ row.actual_posted | fmoney(display_currency) }}
+                </td>
+
+                <td class="p-3 text-right {% if row.remaining < 0 %}text-red-700 font-bold{% else %}text-green-700{% endif %}">
+                    {{ row.remaining | fmoney(display_currency) }}
+                </td>
+
+                <td class="p-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            {% set bar_color = 'bg-red-600' if row.burn_rate > 100 else ('bg-yellow-500' if row.burn_rate > 80 else 'bg-green-600') %}
+                            {% set bar_width = [row.burn_rate | float, 100] | min %}
+
+                            <div
+                                class="{{ bar_color }} h-2.5 rounded-full"
+                                style="width: {{ bar_width }}%"
+                            ></div>
+                        </div>
+
+                        <span class="text-xs font-medium text-gray-600 w-12 text-right">
+                            {{ row.burn_rate }}%
+                        </span>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7" class="p-8 text-center text-gray-500 italic">
+                    {{ _("No budget lines found.") }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

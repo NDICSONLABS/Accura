@@ -1,14 +1,34 @@
-<tr class="hover:bg-gray-50" id="account-row-{{ account.id }}">
-    <td class="p-4 font-mono font-medium">{{ account.code }}</td>
-    <td class="p-4">{{ account.label }}</td>
-    <td class="p-4">{{ account.account_class }}</td>
-    <td class="p-4">{{ account.normal_balance.value }}</td>
-    <td class="p-4">{% if account.is_postable %}✅{% else %}❌{% endif %}</td>
-    <td class="p-4">{% if account.requires_third_party %}✅{% else %}❌{% endif %}</td>
-    <td class="p-4">
-        <button hx-post="/accounting/coa/toggle/{{ account.id }}" hx-target="#account-row-{{ account.id }}" hx-swap="outerHTML"
-                class="px-2 py-1 text-xs rounded {% if account.is_active %}bg-green-100 text-green-800{% else %}bg-gray-200 text-gray-600{% endif %}">
-            {% if account.is_active %}Actif{% else %}Inactif{% endif %}
+<tr id="account-row-{{ account.id }}" class="hover:bg-gray-50">
+    <td class="p-3 font-mono font-medium">{{ account.code }}</td>
+    <td class="p-3">{{ account.label }}</td>
+    <td class="p-3">{{ account.account_class }}</td>
+    <td class="p-3">{{ account.normal_balance.value }}</td>
+    <td class="p-3">
+        {% if account.is_postable %}
+            <span class="text-green-700 font-medium">{{ _("Yes") }}</span>
+        {% else %}
+            <span class="text-gray-500">{{ _("No") }}</span>
+        {% endif %}
+    </td>
+    <td class="p-3">
+        {% if account.requires_third_party %}
+            <span class="text-green-700 font-medium">{{ _("Yes") }}</span>
+        {% else %}
+            <span class="text-gray-500">{{ _("No") }}</span>
+        {% endif %}
+    </td>
+    <td class="p-3">
+        <button
+            hx-post="/accounting/coa/toggle/{{ account.id }}"
+            hx-target="#account-row-{{ account.id }}"
+            hx-swap="outerHTML"
+            class="px-2 py-1 text-xs rounded {% if account.is_active %}bg-green-100 text-green-800{% else %}bg-gray-200 text-gray-600{% endif %}"
+        >
+            {% if account.is_active %}
+                {{ _("Active") }}
+            {% else %}
+                {{ _("Inactive") }}
+            {% endif %}
         </button>
     </td>
 </tr>

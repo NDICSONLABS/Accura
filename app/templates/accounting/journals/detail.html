@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold font-mono">{{ entry.voucher_number }}</h1>
+            <p class="text-gray-500">{{ entry.description }}</p>
+        </div>
+        <a href="/accounting/journals/" class="text-blue-600 hover:underline">
+            {{ _("Back to Journal List") }}
+        </a>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6 mb-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Journal") }}</div>
+            <div class="font-medium">{{ journal.code }} — {{ journal.label }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Fiscal Year") }}</div>
+            <div class="font-medium">{{ fiscal_year.code if fiscal_year else "-" }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Period") }}</div>
+            <div class="font-medium">
+                {{ _("Month") }} {{ period.period_number if period else "-" }}
+            </div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Entry Date") }}</div>
+            <div class="font-medium">{{ entry.entry_date.strftime('%d/%m/%Y') }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Reference") }}</div>
+            <div class="font-medium">{{ entry.reference or "-" }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Created By") }}</div>
+            <div class="font-medium">{{ creator.email if creator else "-" }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Approved By") }}</div>
+            <div class="font-medium">{{ approver.email if approver else "-" }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Status") }}</div>
+            {% if entry.status.value == 'POSTED' %}
+                <span class="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {{ _("Posted") }}
+                </span>
+            {% else %}
+                <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full text-xs font-semibold">
+                    {{ entry.status.value }}
+                </span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto mb-6">
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3">{{ _("Account") }}</th>
+                    <th class="p-3">{{ _("Label") }}</th>
+                    <th class="p-3">{{ _("Third Party") }}</th>
+                    <th class="p-3">{{ _("Description") }}</th>
+                    <th class="p-3 text-right">{{ _("Debit (XAF)") }}</th>
+                    <th class="p-3 text-right">{{ _("Credit (XAF)") }}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for line, account, third_party in lines %}
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-mono font-medium">{{ account.code }}</td>
+                    <td class="p-3">{{ account.label }}</td>
+                    <td class="p-3 text-gray-500">{{ third_party.name if third_party else "-" }}</td>
+                    <td class="p-3 text-gray-600">{{ line.description or "-" }}</td>
+                    <td class="p-3 text-right text-green-700">
+                        {% if line.base_debit > 0 %}{{ line.base_debit | fmoney("XAF") }}{% else %}-{% endif %}
+                    </td>
+                    <td class="p-3 text-right text-red-700">
+                        {% if line.base_credit > 0 %}{{ line.base_credit | fmoney("XAF") }}{% else %}-{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot class="bg-slate-100 font-bold border-t-2 border-slate-800">
+                <tr>
+                    <td colspan="4" class="p-3 text-right uppercase">{{ _("Totals") }}</td>
+                    <td class="p-3 text-right">{{ total_debit | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right">{{ total_credit | fmoney("XAF") }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="p-3 text-right uppercase">{{ _("Difference") }}</td>
+                    <td colspan="2" class="p-3 text-center {% if difference == 0 %}text-green-700{% else %}text-red-700{% endif %}">
+                        {{ difference | fmoney("XAF") }}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div id="form-feedback" class="mb-6"></div>
+
+    <div class="bg-white shadow rounded-lg p-6 space-y-6">
+        {% if entry.status.value == 'DRAFT' %}
+        <div>
+            <h2 class="text-lg font-semibold mb-2">{{ _("Post Entry") }}</h2>
+            <p class="text-sm text-gray-500 mb-3">
+                {{ _("Posting locks this entry permanently. Corrections must use a reversal.") }}
+            </p>
+            <button hx-post="/accounting/journals/{{ entry.id }}/post"
+                    hx-target="#form-feedback"
+                    hx-swap="innerHTML"
+                    hx-confirm="{{ _('Post this entry? This action cannot be undone.') }}"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                {{ _("Post Entry") }}
+            </button>
+        </div>
+        {% endif %}
+
+        {% if entry.status.value == 'POSTED' %}
+        <div class="border-t pt-6">
+            <h2 class="text-lg font-semibold mb-2">{{ _("Reversal (Contre-passation)") }}</h2>
+            <p class="text-sm text-gray-500 mb-3">
+                {{ _("Creates a new posted entry with inverted debit and credit amounts.") }}
+            </p>
+
+            <form hx-post="/accounting/journals/{{ entry.id }}/reverse"
+                  hx-target="#form-feedback"
+                  hx-swap="innerHTML"
+                  class="flex flex-wrap gap-4 items-end">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ _("Reversal Date") }}
+                    </label>
+                    <input type="date" name="reversal_date" required
+                           class="block w-44 rounded-md border-gray-300 shadow-sm p-2 border">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ _("Target Period (optional)") }}
+                    </label>
+                    <select name="target_period_id"
+                            class="block w-64 rounded-md border-gray-300 shadow-sm p-2 border">
+                        <option value="">{{ _("Auto-detect from date") }}</option>
+                        {% for p in open_periods %}
+                            <option value="{{ p.id }}">
+                                {{ p.start_date.strftime('%d/%m/%Y') }} – {{ p.end_date.strftime('%d/%m/%Y') }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit"
+                        hx-confirm="{{ _('Create and post the reversal entry?') }}"
+                        class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                    {{ _("Reverse Entry") }}
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,12 +1,21 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: Accura 1.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-16 18:23+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: en <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
 
+# ============================================================
+# NAVIGATION & SHELL
 msgid "Dashboard"
 msgstr "Dashboard"
 
@@ -46,26 +55,79 @@ msgstr "Settings"
 msgid "Logout"
 msgstr "Logout"
 
-msgid "New Journal Entry"
-msgstr "New Journal Entry"
+# ============================================================
+# COMMON / GENERIC
+msgid "Search"
+msgstr "Search"
 
-msgid "Journal"
-msgstr "Journal"
+msgid "Search by account code or label"
+msgstr "Search by account code or label"
 
-msgid "Fiscal Year"
-msgstr "Fiscal Year"
+msgid "Code"
+msgstr "Code"
 
-msgid "Period"
-msgstr "Period"
+msgid "Label"
+msgstr "Label"
 
-msgid "Month"
-msgstr "Month"
+msgid "Class"
+msgstr "Class"
 
-msgid "Date"
-msgstr "Date"
+msgid "Normal Balance"
+msgstr "Normal Balance"
+
+msgid "Postable"
+msgstr "Postable"
+
+msgid "Third Party Required"
+msgstr "Third Party Required"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Active"
+msgstr "Active"
+
+msgid "Inactive"
+msgstr "Inactive"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "No"
+msgstr "No"
+
+msgid "All"
+msgstr "All"
+
+msgid "Filter"
+msgstr "Filter"
+
+msgid "From"
+msgstr "From"
+
+msgid "To"
+msgstr "To"
+
+msgid "Account ID"
+msgstr "Account ID"
+
+msgid "Voucher"
+msgstr "Voucher"
+
+msgid "Totals"
+msgstr "Totals"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Reference"
+msgstr "Reference"
 
 msgid "Description"
 msgstr "Description"
+
+msgid "Date"
+msgstr "Date"
 
 msgid "Account"
 msgstr "Account"
@@ -79,17 +141,17 @@ msgstr "Currency"
 msgid "Rate"
 msgstr "Rate"
 
-msgid "Debit (XAF)"
-msgstr "Debit (XAF)"
-
-msgid "Credit (XAF)"
-msgstr "Credit (XAF)"
-
 msgid "Fund"
 msgstr "Fund"
 
 msgid "General"
 msgstr "General"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Save Draft"
+msgstr "Save Draft"
 
 msgid "Add Line"
 msgstr "Add Line"
@@ -103,12 +165,109 @@ msgstr "Total Credit"
 msgid "Difference"
 msgstr "Difference"
 
-msgid "Cancel"
-msgstr "Cancel"
+msgid "Debit (XAF)"
+msgstr "Debit (XAF)"
 
-msgid "Save Draft"
-msgstr "Save Draft"
+msgid "Credit (XAF)"
+msgstr "Credit (XAF)"
 
+msgid "Journal"
+msgstr "Journal"
+
+msgid "Fiscal Year"
+msgstr "Fiscal Year"
+
+msgid "Period"
+msgstr "Period"
+
+msgid "Month"
+msgstr "Month"
+
+msgid "Posted"
+msgstr "Posted"
+
+msgid "Draft"
+msgstr "Draft"
+
+msgid "Created By"
+msgstr "Created By"
+
+msgid "Approved By"
+msgstr "Approved By"
+
+msgid "Entry Date"
+msgstr "Entry Date"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Action"
+msgstr "Action"
+
+# ============================================================
+# JOURNALS — ITERATION 8
+msgid "New Journal Entry"
+msgstr "New Journal Entry"
+
+msgid "Back to Journal List"
+msgstr "Back to Journal List"
+
+msgid "Line Description"
+msgstr "Line Description"
+
+msgid "Open Entry"
+msgstr "Open Entry"
+
+msgid "Post Entry"
+msgstr "Post Entry"
+
+msgid "Reversal (Contre-passation)"
+msgstr "Reversal"
+
+msgid "Reversal Date"
+msgstr "Reversal Date"
+
+msgid "Target Period (optional)"
+msgstr "Target Period (optional)"
+
+msgid "Auto-detect from date"
+msgstr "Auto-detect from date"
+
+msgid "Reverse Entry"
+msgstr "Reverse Entry"
+
+msgid "No journal entries found."
+msgstr "No journal entries found."
+
+msgid "No open period for this fiscal year"
+msgstr "No open period for this fiscal year"
+
+msgid "Voucher, description, reference"
+msgstr "Voucher, description, reference"
+
+msgid "Posting locks this entry permanently. Corrections must use a reversal."
+msgstr "Posting locks this entry permanently. Corrections must use a reversal."
+
+msgid "Creates a new posted entry with inverted debit and credit amounts."
+msgstr "Creates a new posted entry with inverted debit and credit amounts."
+
+msgid "Post this entry? This action cannot be undone."
+msgstr "Post this entry? This action cannot be undone."
+
+msgid "Create and post the reversal entry?"
+msgstr "Create and post the reversal entry?"
+
+msgid "No accounts found."
+msgstr "No accounts found."
+
+msgid "No journal lines found."
+msgstr "No journal lines found."
+
+msgid "No budget lines found."
+msgstr "No budget lines found."
+
+# ============================================================
+# LEGACY FRENCH MSGIDS STILL REFERENCED IN TEMPLATES
 msgid "Grand Livre (General Ledger)"
 msgstr "General Ledger"
 
@@ -196,9 +355,6 @@ msgstr "Status"
 msgid "Clôturé Par"
 msgstr "Closed By"
 
-msgid "Actions"
-msgstr "Actions"
-
 msgid "Ouvert"
 msgstr "Open"
 
@@ -220,12 +376,175 @@ msgstr "Close"
 msgid "Fermer Définitivement"
 msgstr "Close Permanently"
 
+msgid ""
+"Êtes-vous sûr de vouloir clôturer cette période ? Cette action est "
+"irréversible."
+msgstr "Are you sure you want to close this period? This action cannot be undone."
+
+msgid "Êtes-vous sûr de vouloir fermer définitivement cette période ?"
+msgstr "Are you sure you want to permanently close this period?"
+
 msgid "Réévaluation des Écarts de Conversion (FX)"
 msgstr "FX Translation Revaluation"
+
+msgid ""
+"Ce processus recalculera les soldes en devises étrangères au taux de "
+"clôture et générera les écritures de gain/perte de change (676/776) et "
+"d'écart de conversion (478/479)."
+msgstr ""
+"This process will revalue foreign currency balances at the closing rate "
+"and generate FX gain/loss entries (676/776) and translation adjustment "
+"entries (478/479)."
 
 msgid "Lancer la Réévaluation FX"
 msgstr "Run FX Revaluation"
 
+# ============================================================
+# BUDGET — ITERATION 6
+msgid "Budget vs. Actual"
+msgstr "Budget vs. Actual"
+
+msgid "Suivi Budgétaire (Budget vs. Actual)"
+msgstr "Budget vs. Actual"
+
+msgid "Bailleur / Fonds"
+msgstr "Donor / Fund"
+
+msgid "Devise d'affichage"
+msgstr "Display Currency"
+
+msgid "Devise Bailleur"
+msgstr "Donor Currency"
+
+msgid "Ligne Budgétaire"
+msgstr "Budget Line"
+
+msgid "Budget Approuvé"
+msgstr "Approved Budget"
+
+msgid "Engagé"
+msgstr "Committed"
+
+msgid "Réel Posté"
+msgstr "Actual Posted"
+
+msgid "Solde Restant"
+msgstr "Remaining"
+
+msgid "Taux d'Exécution"
+msgstr "Burn Rate"
+
+msgid "Aucune ligne budgétaire trouvée."
+msgstr "No budget lines found."
+
+msgid "Budget Line"
+msgstr "Budget Line"
+
+msgid "Approved Budget"
+msgstr "Approved Budget"
+
+msgid "Committed"
+msgstr "Committed"
+
+msgid "Actual Posted"
+msgstr "Actual Posted"
+
+msgid "Remaining"
+msgstr "Remaining"
+
+msgid "Burn Rate"
+msgstr "Burn Rate"
+
+msgid "Display Currency"
+msgstr "Display Currency"
+
+msgid "Donor Currency"
+msgstr "Donor Currency"
+
+# ============================================================
+# FINANCIAL STATEMENTS — ITERATION 7
+msgid "Compte de Résultat SYCEBNL"
+msgstr "SYCEBNL Income Statement"
+
+msgid "Charges"
+msgstr "Expenses"
+
+msgid "Produits"
+msgstr "Revenue"
+
+msgid "Total Charges"
+msgstr "Total Expenses"
+
+msgid "Total Produits"
+msgstr "Total Revenue"
+
+msgid "Résultat de l'Exercice"
+msgstr "Net Result for the Year"
+
+msgid "Bilan SYCEBNL"
+msgstr "SYCEBNL Balance Sheet"
+
+msgid "Actif"
+msgstr "Assets"
+
+msgid "Passif"
+msgstr "Liabilities & Net Assets"
+
+msgid "Total Actif"
+msgstr "Total Assets"
+
+msgid "Total Passif"
+msgstr "Total Liabilities & Net Assets"
+
+msgid ""
+"Attention: Le Bilan n'est pas équilibré. Vérifiez les écritures de report"
+" à nouveau."
+msgstr ""
+"Warning: The balance sheet is not balanced. Check the retained earnings "
+"carry-forward entries."
+
+msgid "Balance Âgée des Fournisseurs"
+msgstr "Aged Payables"
+
+msgid "Balance Âgée des Clients"
+msgstr "Aged Receivables"
+
+msgid "Fournisseurs"
+msgstr "Suppliers"
+
+msgid "Clients"
+msgstr "Customers"
+
+msgid "jours"
+msgstr "days"
+
+msgid "Aucun solde ouvert."
+msgstr "No open balances."
+
+# ============================================================
+# AUDIT TRAIL — ITERATION 7
+msgid "Journal d'Audit (Append-Only)"
+msgstr "Audit Trail (Append-Only)"
+
+msgid "Horodatage"
+msgstr "Timestamp"
+
+msgid "Utilisateur"
+msgstr "User"
+
+msgid "Entité"
+msgstr "Entity"
+
+msgid "Détails"
+msgstr "Details"
+
+# ============================================================
+# ACCRUALS — ITERATION 4
+msgid "New Supplier Bill"
+msgstr "New Supplier Bill"
+
+# ============================================================
+# AUTHENTICATION
 msgid "Connexion"
 msgstr "Login"
 
@@ -240,3 +559,305 @@ msgstr "Sign in"
 
 msgid "Email ou mot de passe invalide"
 msgstr "Invalid email or password"
+
+#, python-brace-format
+msgid "Journal '{journal_code}' does not exist."
+msgstr "Journal '{journal_code}' does not exist."
+
+#, python-brace-format
+msgid "Account {account_code} is invalid, inactive, or not postable."
+msgstr "Account {account_code} is invalid, inactive, or not postable."
+
+#, python-brace-format
+msgid "Account {account_code} (Class 4) requires a linked Third Party (Tiers)."
+msgstr "Account {account_code} (Class 4) requires a linked Third Party."
+
+#, python-brace-format
+msgid "Account {account_code} is invalid or not postable."
+msgstr "Account {account_code} is invalid or not postable."
+
+#, python-brace-format
+msgid ""
+"Budget exceeded for account {account_code}. Approved: {approved}, Spent +"
+" New: {spent}"
+msgstr ""
+"Budget exceeded for account {account_code}. Approved: {approved}, Spent +"
+" New: {spent}"
+
+#, python-brace-format
+msgid "Entry is unbalanced. Debit: {debit}, Credit: {credit}"
+msgstr "Entry is unbalanced. Debit: {debit}, Credit: {credit}"
+
+#, python-brace-format
+msgid "Cannot post entry with status: {status}"
+msgstr "Cannot post entry with status: {status}"
+
+#, python-brace-format
+msgid ""
+"Cannot close period: The ledger is unbalanced. Debit: {debit}, Credit: "
+"{credit}"
+msgstr ""
+"Cannot close period: The ledger is unbalanced. Debit: {debit}, Credit: "
+"{credit}"
+
+#, python-brace-format
+msgid "Journal entry {voucher} has been POSTED."
+msgstr "Journal entry {voucher} has been POSTED."
+
+#, python-brace-format
+msgid "Reversal posted as {voucher}."
+msgstr "Reversal posted as {voucher}."
+
+msgid "Journal entry saved as DRAFT."
+msgstr "Journal entry saved as DRAFT."
+
+msgid "Paramètres mis à jour avec succès."
+msgstr "Settings updated successfully."
+
+msgid "Invalid email or password"
+msgstr "Invalid email or password"
+
+msgid "Fournisseur (Tiers)"
+msgstr "Supplier (Third Party)"
+
+msgid "Total Base (XAF)"
+msgstr "Total Base (XAF)"
+
+msgid "Retenue à la source (447)"
+msgstr "Withholding Tax (447)"
+
+msgid "Aperçu des Écritures Comptables (GL Preview)"
+msgstr "Generated Journal Entries Preview"
+
+msgid "Charges (Lignes de facture)"
+msgstr "Expenses (Bill Lines)"
+
+msgid "État, impôts retenus à la source"
+msgstr "State, taxes withheld at source"
+
+msgid "Écart:"
+msgstr "Difference:"
+
+msgid "Équilibre:"
+msgstr "Balance:"
+
+msgid "Enregistrer la Facture"
+msgstr "Save Bill"
+
+msgid "Multi-Devises (Multi-Currency)"
+msgstr "Multi-Currency"
+
+msgid "Activer la gestion des taux de change et des écritures en devises."
+msgstr "Enable exchange rates and foreign currency entries."
+
+msgid "Suivi par Bailleur (Donor Tracking)"
+msgstr "Donor Tracking"
+
+msgid "Activer les fonds dédiés (Classe 16x) et l'affectation par projet."
+msgstr "Enable restricted funds (Class 16x) and project allocation."
+
+msgid "Enregistrer"
+msgstr "Save"
+
+msgid "Fournisseur"
+msgstr "Supplier"
+
+msgid "Débit (XAF)"
+msgstr "Debit (XAF)"
+
+msgid "Crédit (XAF)"
+msgstr "Credit (XAF)"
+
+msgid "Fixed Assets"
+msgstr "Fixed Assets"
+
+msgid "New Fixed Asset"
+msgstr "New Fixed Asset"
+
+msgid "No fixed assets found."
+msgstr "No fixed assets found."
+
+msgid "Search by code or label"
+msgstr "Search by code or label"
+
+msgid "In Service"
+msgstr "In Service"
+
+msgid "Acquisition Cost"
+msgstr "Acquisition Cost"
+
+msgid "Method"
+msgstr "Method"
+
+msgid "Monthly Depreciation"
+msgstr "Monthly Depreciation"
+
+msgid "Generate Schedule"
+msgstr "Generate Schedule"
+
+msgid "Post Depreciation"
+msgstr "Post Depreciation"
+
+msgid "View Schedule"
+msgstr "View Schedule"
+
+msgid "Post depreciation for this period?"
+msgstr "Post depreciation for this period?"
+
+msgid "Acquisition Date"
+msgstr "Acquisition Date"
+
+msgid "In Service Date"
+msgstr "In Service Date"
+
+msgid "Acquisition Cost (XAF)"
+msgstr "Acquisition Cost (XAF)"
+
+msgid "Residual Value (XAF)"
+msgstr "Residual Value (XAF)"
+
+msgid "Useful Life (months)"
+msgstr "Useful Life (months)"
+
+msgid "Declining Rate (% annual)"
+msgstr "Declining Rate (% annual)"
+
+msgid "Asset Account"
+msgstr "Asset Account"
+
+msgid "Depreciation Expense Account"
+msgstr "Depreciation Expense Account"
+
+msgid "Accumulated Depreciation Account"
+msgstr "Accumulated Depreciation Account"
+
+msgid "Save Asset"
+msgstr "Save Asset"
+
+msgid "Back to Assets"
+msgstr "Back to Assets"
+
+msgid "Accumulated Depreciation"
+msgstr "Accumulated Depreciation"
+
+msgid "Net Book Value"
+msgstr "Net Book Value"
+
+msgid "Useful Life"
+msgstr "Useful Life"
+
+msgid "months"
+msgstr "months"
+
+msgid "Expense Account"
+msgstr "Expense Account"
+
+msgid "Accumulated Account"
+msgstr "Accumulated Account"
+
+msgid "No depreciation schedule yet."
+msgstr "No depreciation schedule yet."
+
+msgid "Depreciation Schedule"
+msgstr "Depreciation Schedule"
+
+msgid "Asset"
+msgstr "Asset"
+
+msgid "Proposed"
+msgstr "Proposed"
+
+msgid "Amount"
+msgstr "Amount"
+
+msgid "Journal Entry"
+msgstr "Journal Entry"
+
+msgid "No schedule for this period. Generate it first."
+msgstr "No schedule for this period. Generate it first."
+
+msgid "Open Asset"
+msgstr "Open Asset"
+
+msgid "Fixed asset created."
+msgstr "Fixed asset created."
+
+msgid "Depreciation schedule generated."
+msgstr "Depreciation schedule generated."
+
+#, python-brace-format
+msgid "Depreciation posted as {voucher}."
+msgstr "Depreciation posted as {voucher}."
+
+msgid "STRAIGHT_LINE"
+msgstr "Straight-Line"
+
+msgid "DECLINING_BALANCE"
+msgstr "Declining Balance"
+
+msgid "ACTIVE"
+msgstr "Active"
+
+msgid "FULLY_DEPRECIATED"
+msgstr "Fully Depreciated"
+
+msgid "DISPOSED"
+msgstr "Disposed"
+
+msgid "SCHEDULED"
+msgstr "Scheduled"
+
+msgid "POSTED"
+msgstr "Posted"
+
+msgid "SKIPPED"
+msgstr "Skipped"
+
+msgid "Acquisition cost must be greater than zero."
+msgstr "Acquisition cost must be greater than zero."
+
+msgid "Residual value cannot be negative."
+msgstr "Residual value cannot be negative."
+
+msgid "Residual value must be less than acquisition cost."
+msgstr "Residual value must be less than acquisition cost."
+
+msgid "Useful life must be at least one month."
+msgstr "Useful life must be at least one month."
+
+msgid "In-service date cannot precede acquisition date."
+msgstr "In-service date cannot precede acquisition date."
+
+msgid "Declining balance method requires a positive annual rate."
+msgstr "Declining balance method requires a positive annual rate."
+
+msgid "Asset account must be a Class 2 account."
+msgstr "Asset account must be a Class 2 account."
+
+msgid "Depreciation expense account must be a postable Class 6 account."
+msgstr "Depreciation expense account must be a postable Class 6 account."
+
+msgid "Accumulated depreciation account must be a postable Class 2 account."
+msgstr "Accumulated depreciation account must be a postable Class 2 account."
+
+msgid "Cannot generate depreciation: accounting period is not OPEN."
+msgstr "Cannot generate depreciation: accounting period is not OPEN."
+
+msgid "Cannot generate depreciation: fiscal year is not OPEN."
+msgstr "Cannot generate depreciation: fiscal year is not OPEN."
+
+msgid "Cannot post depreciation: accounting period is not OPEN."
+msgstr "Cannot post depreciation: accounting period is not OPEN."
+
+msgid "Cannot post depreciation: fiscal year is not OPEN."
+msgstr "Cannot post depreciation: fiscal year is not OPEN."
+
+msgid "Depreciation journal 'AMOR' is missing. Run migrations."
+msgstr "Depreciation journal 'AMOR' is missing. Run migrations."
+
+msgid "No scheduled depreciation lines to post for this period."
+msgstr "No scheduled depreciation lines to post for this period."
+
+msgid "Depreciation total is zero; nothing to post."
+msgstr "Depreciation total is zero; nothing to post."
+

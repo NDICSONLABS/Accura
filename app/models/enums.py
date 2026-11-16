@@ -29,3 +29,20 @@ class BudgetEnforcementMode(str, enum.Enum):
     NONE = "NONE"
     WARN = "WARN"
     STRICT = "STRICT"
+
+
+class DepreciationMethod(str, enum.Enum):
+    STRAIGHT_LINE = "STRAIGHT_LINE"
+    DECLINING_BALANCE = "DECLINING_BALANCE"
+
+
+class AssetStatus(str, enum.Enum):
+    ACTIVE = "ACTIVE"
+    FULLY_DEPRECIATED = "FULLY_DEPRECIATED"
+    DISPOSED = "DISPOSED"
+
+
+class DepreciationStatus(str, enum.Enum):
+    SCHEDULED = "SCHEDULED"
+    POSTED = "POSTED"
+    SKIPPED = "SKIPPED"

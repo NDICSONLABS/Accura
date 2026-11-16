@@ -1,0 +1,45 @@
+<table class="w-full text-sm text-left tabular-nums">
+    <thead class="bg-slate-800 text-white uppercase text-xs">
+        <tr>
+            <th class="p-3">{{ _("Date") }}</th>
+            <th class="p-3">{{ _("Voucher") }}</th>
+            <th class="p-3">{{ _("Account") }}</th>
+            <th class="p-3">{{ _("Description") }}</th>
+            <th class="p-3">{{ _("Third Party") }}</th>
+            <th class="p-3 text-right">{{ _("Debit (XAF)") }}</th>
+            <th class="p-3 text-right">{{ _("Credit (XAF)") }}</th>
+        </tr>
+    </thead>
+
+    <tbody class="divide-y divide-gray-200 bg-white">
+        {% for line, entry, account, third_party in rows %}
+            <tr class="hover:bg-blue-50 transition-colors">
+                <td class="p-3 whitespace-nowrap">{{ entry.entry_date.strftime('%d/%m/%Y') }}</td>
+                <td class="p-3 font-mono">{{ entry.voucher_number }}</td>
+                <td class="p-3 font-mono">{{ account.code }}</td>
+                <td class="p-3 text-gray-600">{{ line.description or entry.description }}</td>
+                <td class="p-3">{{ third_party.name if third_party else "-" }}</td>
+                <td class="p-3 text-right text-green-700">
+                    {% if line.base_debit > 0 %}
+                        {{ line.base_debit | fmoney("XAF") }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td class="p-3 text-right text-red-700">
+                    {% if line.base_credit > 0 %}
+                        {{ line.base_credit | fmoney("XAF") }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7" class="p-8 text-center text-gray-500 italic">
+                    {{ _("No journal lines found.") }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

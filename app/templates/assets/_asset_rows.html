@@ -1,0 +1,16 @@
+{% for asset in assets %}
+<tr class="hover:bg-gray-50">
+    <td class="p-3 font-mono">
+        <a href="/assets/{{ asset.id }}" class="text-blue-600 hover:underline">{{ asset.code }}</a>
+    </td>
+    <td class="p-3">{{ asset.label }}</td>
+    <td class="p-3">{{ asset.in_service_date.strftime('%d/%m/%Y') }}</td>
+    <td class="p-3 text-right tabular-nums">{{ asset.acquisition_cost | fmoney("XAF") }}</td>
+    <td class="p-3">{{ _(asset.method.value) }}</td>
+    <td class="p-3">{{ _(asset.status.value) }}</td>
+</tr>
+{% else %}
+<tr>
+    <td colspan="6" class="p-8 text-center text-gray-500 italic">{{ _("No fixed assets found.") }}</td>
+</tr>
+{% endfor %}

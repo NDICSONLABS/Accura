@@ -1,0 +1,42 @@
+{% if success %}
+    <div class="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded" role="alert">
+        <p class="font-medium">{{ tmsg(success) }}</p>
+
+        {% if entry %}
+            <div class="mt-2 text-sm space-y-1">
+                <p>
+                    {{ _("Voucher") }}:
+                    <span class="font-mono font-bold">{{ entry.voucher_number }}</span>
+                </p>
+
+                <p>
+                    {{ _("Status") }}:
+                    <span class="font-bold">{{ _(entry.status.value) }}</span>
+                </p>
+
+                <div class="flex gap-3 mt-3">
+                    <a href="/accounting/journals/{{ entry.id }}"
+                       class="bg-slate-700 text-white px-4 py-2 rounded hover:bg-slate-800">
+                        {{ _("Open Entry") }}
+                    </a>
+
+                    {% if entry.status.value == "DRAFT" %}
+                        <button type="button"
+                                hx-post="/accounting/journals/{{ entry.id }}/post"
+                                hx-target="#form-feedback"
+                                hx-swap="innerHTML"
+                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                            {{ _("Post Entry") }}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+        {{ tmsg(error) }}
+    </div>
+{% endif %}

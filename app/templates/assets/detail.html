@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold font-mono">{{ asset.code }}</h1>
+            <p class="text-gray-500">{{ asset.label }}</p>
+        </div>
+        <a href="/assets/" class="text-blue-600 hover:underline">{{ _("Back to Assets") }}</a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-lg shadow mb-6 text-sm">
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Acquisition Cost") }}</div>
+            <div class="font-bold tabular-nums">{{ asset.acquisition_cost | fmoney("XAF") }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Accumulated Depreciation") }}</div>
+            <div class="font-bold tabular-nums">{{ accumulated | fmoney("XAF") }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Net Book Value") }}</div>
+            <div class="font-bold tabular-nums text-blue-700">{{ net_book_value | fmoney("XAF") }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Status") }}</div>
+            <div class="font-bold">{{ _(asset.status.value) }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Method") }}</div>
+            <div>{{ _(asset.method.value) }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Useful Life") }}</div>
+            <div>{{ asset.useful_life_months }} {{ _("months") }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Expense Account") }}</div>
+            <div class="font-mono">{{ expense_account.code }}</div>
+        </div>
+        <div>
+            <div class="text-gray-500 uppercase text-xs">{{ _("Accumulated Account") }}</div>
+            <div class="font-mono">{{ accum_account.code }}</div>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3">{{ _("Period") }}</th>
+                    <th class="p-3 text-right">{{ _("Amount") }}</th>
+                    <th class="p-3">{{ _("Status") }}</th>
+                    <th class="p-3">{{ _("Journal Entry") }}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for line, period in schedule %}
+                <tr>
+                    <td class="p-3">{{ period.start_date.strftime('%m/%Y') }}</td>
+                    <td class="p-3 text-right">{{ line.amount | fmoney("XAF") }}</td>
+                    <td class="p-3">{{ _(line.status.value) }}</td>
+                    <td class="p-3">
+                        {% if line.journal_entry_id %}
+                        <a href="/accounting/journals/{{ line.journal_entry_id }}" class="text-blue-600 hover:underline">
+                            {{ _("Open Entry") }}
+                        </a>
+                        {% else %}-{% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-gray-500 italic">
+                        {{ _("No depreciation schedule yet.") }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

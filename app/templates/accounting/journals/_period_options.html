@@ -1,0 +1,10 @@
+{% if periods %}
+    {% for p in periods %}
+        <option value="{{ p.id }}">
+            {{ _("Month") }} {{ p.period_number }}
+            ({{ p.start_date.strftime('%d/%m/%Y') }} – {{ p.end_date.strftime('%d/%m/%Y') }})
+        </option>
+    {% endfor %}
+{% else %}
+    <option value="">{{ _("No open period for this fiscal year") }}</option>
+{% endif %}

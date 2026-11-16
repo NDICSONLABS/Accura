@@ -5,18 +5,10 @@ from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
 
-from app.core.i18n import get_locale, get_translator
+from app.core.i18n import get_locale, get_translator, translate_message
 
 
 class I18nJinja2Templates(Jinja2Templates):
-    """
-    Custom Jinja2Templates wrapper that:
-      1. Handles both legacy and modern Starlette TemplateResponse signatures.
-      2. Injects the i18n `_` function and `locale` into every template.
-      3. Auto-injects a normalized `settings` dict into every template.
-      4. Registers `tojson` and `fmoney` filters for safe rendering.
-    """
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.env.filters["tojson"] = self._tojson
@@ -28,13 +20,8 @@ class I18nJinja2Templates(Jinja2Templates):
 
     @staticmethod
     def _fmoney(amount, currency: str = "XAF") -> str:
-        """
-        Decimal-only money formatting.
-        XAF = 0 decimals. Foreign currencies = 2 decimals.
-        """
         if amount is None:
             amount = Decimal("0")
-
         if not isinstance(amount, Decimal):
             try:
                 amount = Decimal(str(amount))
@@ -78,13 +65,12 @@ class I18nJinja2Templates(Jinja2Templates):
         if request:
             context["request"] = request
 
-            try:
-                locale = get_locale(request)
-                translator = get_translator(locale)
-                context["_"] = translator.gettext
-                context["locale"] = locale
-            except Exception:
-                pass
+            locale = get_locale(request)
+            translator = get_translator(locale)
+
+            context["_"] = translator.gettext
+            context["locale"] = locale
+            context["tmsg"] = lambda msg: translate_message(request, msg)
 
             context["settings"] = self._resolve_settings(context.get("settings"))
 

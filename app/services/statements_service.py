@@ -120,14 +120,33 @@ def get_bilan(db: Session, fiscal_year_id: int) -> Bilan:
 
     for row in results:
         net = (row.d or Decimal("0")) - (row.c or Decimal("0"))
-        # SYCEBNL classification: Classes 2,3 and debit balances of 4,5 are Actif.
-        # Class 1 and credit balances of 4,5 are Passif.
-        if net > 0 and row.account_class in [2, 3, 4, 5]:
+
+        # Class 2 and 3 balances stay in Actif even when credit (contra-asset).
+        if row.account_class in (2, 3):
             actif.append(BilanRow(account_code=row.code, account_label=row.label, amount=net))
             total_actif += net
-        elif net < 0 and row.account_class in [1, 4, 5]:
+        elif row.account_class in (4, 5):
+            if net >= 0:
+                actif.append(BilanRow(account_code=row.code, account_label=row.label, amount=net))
+                total_actif += net
+            else:
+                passif.append(BilanRow(account_code=row.code, account_label=row.label, amount=-net))
+                total_passif += -net
+        elif row.account_class == 1:
             passif.append(BilanRow(account_code=row.code, account_label=row.label, amount=-net))
             total_passif += -net
+
+    # Include current year result in Passif so the Bilan balances.
+    cr = get_compte_de_resultat(db, fiscal_year_id)
+    if cr.resultat != 0:
+        passif.append(
+            BilanRow(
+                account_code="RÉSULTAT",
+                account_label="Résultat de l'exercice",
+                amount=cr.resultat,
+            )
+        )
+        total_passif += cr.resultat
 
     return Bilan(actif=actif, passif=passif, total_actif=total_actif, total_passif=total_passif)
 

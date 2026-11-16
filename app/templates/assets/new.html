@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("New Fixed Asset") }}</h1>
+
+    <form hx-post="/assets/create" hx-target="#asset-feedback"
+          class="space-y-6 bg-white p-6 rounded-lg shadow">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Code") }}</label>
+                <input type="text" name="code" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Label") }}</label>
+                <input type="text" name="label" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Acquisition Date") }}</label>
+                <input type="date" name="acquisition_date" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("In Service Date") }}</label>
+                <input type="date" name="in_service_date" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Acquisition Cost (XAF)") }}</label>
+                <input type="number" step="1" name="acquisition_cost" required class="mt-1 block w-full p-2 border rounded text-right tabular-nums">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Residual Value (XAF)") }}</label>
+                <input type="number" step="1" name="residual_value" value="0" class="mt-1 block w-full p-2 border rounded text-right tabular-nums">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Useful Life (months)") }}</label>
+                <input type="number" step="1" name="useful_life_months" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Method") }}</label>
+                <select name="method" class="mt-1 block w-full p-2 border rounded">
+                    {% for m in methods %}
+                    <option value="{{ m.value }}">{{ _(m.value) }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Declining Rate (% annual)") }}</label>
+                <input type="number" step="0.01" name="declining_rate_percent" class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Asset Account") }}</label>
+                <select name="asset_account_code" class="mt-1 block w-full p-2 border rounded">
+                    {% for a in asset_accounts %}
+                    <option value="{{ a.code }}">{{ a.code }} — {{ a.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Depreciation Expense Account") }}</label>
+                <select name="expense_account_code" class="mt-1 block w-full p-2 border rounded">
+                    {% for a in expense_accounts %}
+                    <option value="{{ a.code }}" {% if a.code == '681' %}selected{% endif %}>{{ a.code }} — {{ a.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Accumulated Depreciation Account") }}</label>
+                <select name="accum_account_code" class="mt-1 block w-full p-2 border rounded">
+                    {% for a in accum_accounts %}
+                    <option value="{{ a.code }}" {% if a.code == '284' %}selected{% endif %}>{{ a.code }} — {{ a.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div id="asset-feedback"></div>
+
+        <div class="flex justify-end gap-4">
+            <a href="/assets/" class="px-4 py-2 border rounded">{{ _("Cancel") }}</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                {{ _("Save Asset") }}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
