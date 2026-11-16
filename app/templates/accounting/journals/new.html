@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto" x-data="journalEntry({{ settings.model_dump_json() | safe }})">
+    <h1 class="text-2xl font-bold mb-6">{{ _("New Journal Entry") }}</h1>
+
+    <form hx-post="/accounting/journals/create" hx-target="#form-feedback" class="space-y-6 bg-white p-6 rounded-lg shadow">
+        <!-- Header -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Journal</label>
+                <select name="journal_code" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" required>
+                    {% for j in journals %}
+                        <option value="{{ j.code }}">{{ j.code }} - {{ j.label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Exercice</label>
+                <select name="fiscal_year_code" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" required>
+                    {% for fy in fiscal_years %}
+                        <option value="{{ fy.code }}">{{ fy.code }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Période</label>
+                <select name="period_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" required>
+                    {% for p in periods %}
+                        <option value="{{ p.id }}">Mois {{ p.period_number }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Date</label>
+                <input type="date" name="entry_date" x-model="entryDate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" required>
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Description / Libellé</label>
+            <input type="text" name="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border" required>
+        </div>
+
+        <!-- Dynamic Lines Table -->
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-50 text-gray-600 uppercase">
+                    <tr>
+                        <th class="p-2">Compte</th>
+                        <th class="p-2" x-show="settings.tax_withholding_enabled">Tiers</th>
+                        <th class="p-2" x-show="settings.multi_currency_enabled">Devise</th>
+                        <th class="p-2" x-show="settings.multi_currency_enabled">Taux</th>
+                        <th class="p-2">Débit (XAF)</th>
+                        <th class="p-2">Crédit (XAF)</th>
+                        <th class="p-2" x-show="settings.donor_fund_tracking_enabled">Fonds</th>
+                        <th class="p-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(line, index) in lines" :key="index">
+                        <tr class="border-b">
+                            <td class="p-2"><input type="text" x-model="line.account" class="w-24 p-1 border rounded" placeholder="e.g. 601"></td>
+                            <td class="p-2" x-show="settings.tax_withholding_enabled"><input type="number" x-model="line.third_party" class="w-20 p-1 border rounded" placeholder="ID"></td>
+                            <td class="p-2" x-show="settings.multi_currency_enabled">
+                                <select x-model="line.currency" class="w-20 p-1 border rounded">
+                                    <option value="XAF">XAF</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                </select>
+                            </td>
+                            <td class="p-2" x-show="settings.multi_currency_enabled"><input type="number" step="0.000001" x-model="line.rate" class="w-24 p-1 border rounded"></td>
+                            <td class="p-2"><input type="number" step="1" x-model="line.debit" @input="calculateTotals" class="w-32 p-1 border rounded text-right tabular-nums"></td>
+                            <td class="p-2"><input type="number" step="1" x-model="line.credit" @input="calculateTotals" class="w-32 p-1 border rounded text-right tabular-nums"></td>
+                            <td class="p-2" x-show="settings.donor_fund_tracking_enabled">
+                                <select class="w-24 p-1 border rounded"><option>Général</option></select>
+                            </td>
+                            <td class="p-2">
+                                <button type="button" @click="removeLine(index)" class="text-red-600 hover:text-red-800" x-show="lines.length > 2">✕</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <button type="button" @click="addLine" class="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium">+ Ajouter une ligne</button>
+        </div>
+
+        <!-- Live Balancing Footer -->
+        <div class="flex justify-end items-center space-x-6 pt-4 border-t bg-gray-50 p-4 rounded">
+            <div class="text-right">
+                <div class="text-sm text-gray-500">Total Débit</div>
+                <div class="text-xl font-bold tabular-nums" x-text="formatMoney(totalDebit)"></div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-500">Total Crédit</div>
+                <div class="text-xl font-bold tabular-nums" x-text="formatMoney(totalCredit)"></div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-gray-500">Écart</div>
+                <div class="text-xl font-bold tabular-nums" :class="{'text-green-600': diff === 0, 'text-red-600': diff !== 0}" x-text="formatMoney(diff)"></div>
+            </div>
+        </div>
+
+        <div id="form-feedback"></div>
+
+        <div class="flex justify-end space-x-4 pt-4">
+            <button type="button" class="px-4 py-2 border rounded hover:bg-gray-50">Annuler</button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" :disabled="diff !== 0">Enregistrer Brouillon</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function journalEntry(settings) {
+    return {
+        settings: settings,
+        entryDate: new Date().toISOString().split('T')[0],
+        lines: [
+            { account: '', third_party: '', currency: 'XAF', rate: '1.000000', debit: '', credit: '' },
+            { account: '', third_party: '', currency: 'XAF', rate: '1.000000', debit: '', credit: '' }
+        ],
+        totalDebit: 0,
+        totalCredit: 0,
+        get diff() { return this.totalDebit - this.totalCredit; },
+        
+        addLine() {
+            this.lines.push({ account: '', third_party: '', currency: 'XAF', rate: '1.000000', debit: '', credit: '' });
+        },
+        removeLine(index) {
+            this.lines.splice(index, 1);
+            this.calculateTotals();
+        },
+        calculateTotals() {
+            this.totalDebit = this.lines.reduce((sum, line) => sum + (parseFloat(line.debit) || 0), 0);
+            this.totalCredit = this.lines.reduce((sum, line) => sum + (parseFloat(line.credit) || 0), 0);
+        },
+        formatMoney(amount) {
+            return new Intl.NumberFormat('fr-CM', { style: 'currency', currency: 'XAF', maximumFractionDigits: 0 }).format(amount);
+        }
+    }
+}
+</script>
+{% endblock %}

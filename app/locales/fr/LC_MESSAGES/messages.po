@@ -1,0 +1,21 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Accura 1.0\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+msgid "Journal Entries"
+msgstr "Écritures comptables"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Chart of Accounts"
+msgstr "Plan comptable"

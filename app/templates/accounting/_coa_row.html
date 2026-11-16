@@ -1,0 +1,14 @@
+<tr class="hover:bg-gray-50" id="account-row-{{ account.id }}">
+    <td class="p-4 font-mono font-medium">{{ account.code }}</td>
+    <td class="p-4">{{ account.label }}</td>
+    <td class="p-4">{{ account.account_class }}</td>
+    <td class="p-4">{{ account.normal_balance.value }}</td>
+    <td class="p-4">{% if account.is_postable %}✅{% else %}❌{% endif %}</td>
+    <td class="p-4">{% if account.requires_third_party %}✅{% else %}❌{% endif %}</td>
+    <td class="p-4">
+        <button hx-post="/accounting/coa/toggle/{{ account.id }}" hx-target="#account-row-{{ account.id }}" hx-swap="outerHTML"
+                class="px-2 py-1 text-xs rounded {% if account.is_active %}bg-green-100 text-green-800{% else %}bg-gray-200 text-gray-600{% endif %}">
+            {% if account.is_active %}Actif{% else %}Inactif{% endif %}
+        </button>
+    </td>
+</tr>

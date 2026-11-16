@@ -1,0 +1,29 @@
+<div class="space-y-4">
+    <div class="flex items-center justify-between">
+        <div>
+            <label class="font-medium">Multi-Devises (Multi-Currency)</label>
+            <p class="text-sm text-gray-500">Activer la gestion des taux de change et des écritures en devises.</p>
+        </div>
+        <input type="checkbox" name="multi_currency_enabled" value="true" {% if settings.multi_currency_enabled %}checked{% endif %}
+               class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+               {% if settings.multi_currency_enabled %}disabled title="Cannot disable: Posted FX transactions exist"{% endif %}>
+        <input type="hidden" name="multi_currency_enabled" value="false">
+    </div>
+
+    <div class="flex items-center justify-between">
+        <div>
+            <label class="font-medium">Suivi par Bailleur (Donor Tracking)</label>
+            <p class="text-sm text-gray-500">Activer les fonds dédiés (Classe 16x) et l'affectation par projet.</p>
+        </div>
+        <input type="checkbox" name="donor_fund_tracking_enabled" value="true" {% if settings.donor_fund_tracking_enabled %}checked{% endif %}
+               class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
+               {% if settings.donor_fund_tracking_enabled %}disabled title="Cannot disable: Posted fund transactions exist"{% endif %}>
+        <input type="hidden" name="donor_fund_tracking_enabled" value="false">
+    </div>
+
+    <!-- Add other toggles similarly: project_cost_center_enabled, budget_control_enabled, etc. -->
+
+    <div class="pt-4 border-t">
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Enregistrer</button>
+    </div>
+</div>
