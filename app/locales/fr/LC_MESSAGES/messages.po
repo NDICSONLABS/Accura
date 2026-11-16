@@ -998,3 +998,238 @@ msgstr "Aucune ligne d'amortissement planifiée à valider pour cette période."
 msgid "Depreciation total is zero; nothing to post."
 msgstr "Le total d'amortissement est nul ; rien à valider."
 
+msgid "New Settlement"
+msgstr "Nouveau règlement"
+
+msgid "Open Bill"
+msgstr "Ouvrir la facture"
+
+msgid "Open Settlement"
+msgstr "Ouvrir le règlement"
+
+msgid "No supplier bills found."
+msgstr "Aucune facture fournisseur trouvée."
+
+msgid "Supplier"
+msgstr "Fournisseur"
+
+msgid "Net Payable"
+msgstr "Net à payer"
+
+msgid "Outstanding"
+msgstr "Solde dû"
+
+msgid "Payment"
+msgstr "Paiement"
+
+msgid "Bill Date"
+msgstr "Date de facture"
+
+msgid "Due Date"
+msgstr "Date d'échéance"
+
+msgid "VAT Account"
+msgstr "Compte de TVA"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Withholding Tax (XAF)"
+msgstr "Retenue à la source (XAF)"
+
+msgid "Net (XAF)"
+msgstr "Net HT (XAF)"
+
+msgid "VAT (XAF)"
+msgstr "TVA (XAF)"
+
+msgid "Deductible"
+msgstr "Déductible"
+
+msgid "Expenses"
+msgstr "Charges"
+
+msgid "Deductible VAT"
+msgstr "TVA déductible"
+
+msgid "Withholding Tax"
+msgstr "Retenue à la source"
+
+msgid "Back to Bills"
+msgstr "Retour aux factures"
+
+msgid "Paid"
+msgstr "Payé"
+
+msgid "Post Bill"
+msgstr "Valider la facture"
+
+msgid "Post this bill?"
+msgstr "Valider cette facture ?"
+
+msgid "Pay This Supplier"
+msgstr "Payer ce fournisseur"
+
+msgid "Settlement Date"
+msgstr "Date de règlement"
+
+msgid "Treasury Account"
+msgstr "Compte de trésorerie"
+
+msgid "Payment Rate"
+msgstr "Taux de paiement"
+
+msgid "Bill Rate"
+msgstr "Taux facture"
+
+msgid "Allocate"
+msgstr "Allouer"
+
+msgid "Liability Cleared"
+msgstr "Dette apurée"
+
+msgid "Cash Paid"
+msgstr "Montant payé"
+
+msgid "FX Gain"
+msgstr "Gain de change"
+
+msgid "FX Loss"
+msgstr "Perte de change"
+
+msgid "Select a supplier"
+msgstr "Sélectionner un fournisseur"
+
+msgid "No open bills for this supplier."
+msgstr "Aucune facture ouverte pour ce fournisseur."
+
+msgid "Bill"
+msgstr "Facture"
+
+msgid "Foreign"
+msgstr "Devise"
+
+msgid "FX Gain/Loss"
+msgstr "Gain/Perte de change"
+
+msgid "Treasury"
+msgstr "Trésorerie"
+
+msgid "Post Settlement"
+msgstr "Valider le règlement"
+
+msgid "Post this settlement?"
+msgstr "Valider ce règlement ?"
+
+msgid "UNPAID"
+msgstr "Non payée"
+
+msgid "PARTIALLY_PAID"
+msgstr "Partiellement payée"
+
+msgid "PAID"
+msgstr "Payée"
+
+msgid "Supplier bill saved as DRAFT."
+msgstr "Facture fournisseur enregistrée en brouillon."
+
+msgid "Supplier bill has been POSTED."
+msgstr "Facture fournisseur VALIDÉE."
+
+msgid "Settlement saved as DRAFT."
+msgstr "Règlement enregistré en brouillon."
+
+msgid "Settlement has been POSTED."
+msgstr "Règlement VALIDÉ."
+
+msgid "Supplier (Third Party) not found."
+msgstr "Fournisseur (Tiers) introuvable."
+
+msgid "Supplier must be linked to a Class 4 control account."
+msgstr "Le fournisseur doit être lié à un compte de tiers de Classe 4."
+
+msgid "Due date cannot precede bill date."
+msgstr "La date d'échéance ne peut pas précéder la date de facture."
+
+msgid "Exchange rate must be greater than zero."
+msgstr "Le taux de change doit être supérieur à zéro."
+
+msgid "Multi-currency is not enabled in organization settings."
+msgstr "Le multi-devises n'est pas activé dans les paramètres."
+
+msgid "At least one bill line is required."
+msgstr "Au moins une ligne de facture est requise."
+
+msgid "VAT account is invalid or not postable."
+msgstr "Le compte de TVA est invalide ou non mouvementable."
+
+msgid "Each bill line must have a positive net amount."
+msgstr "Chaque ligne de facture doit avoir un montant net positif."
+
+msgid "VAT amount cannot be negative."
+msgstr "Le montant de TVA ne peut pas être négatif."
+
+msgid "Deductible VAT requires a VAT account."
+msgstr "La TVA déductible exige un compte de TVA."
+
+msgid "Every bill line requires an account code."
+msgstr "Chaque ligne de facture exige un code compte."
+
+msgid "Bill not found."
+msgstr "Facture introuvable."
+
+msgid "Purchase journal 'ACH' is missing. Run migrations."
+msgstr "Le journal d'achat 'ACH' est manquant. Exécutez les migrations."
+
+msgid "Withholding tax account 447 is missing."
+msgstr "Le compte de retenue à la source 447 est manquant."
+
+msgid "Treasury account must be a postable Class 5 account."
+msgstr "Le compte de trésorerie doit être un compte de Classe 5 mouvementable."
+
+msgid "Selected journal does not exist."
+msgstr "Le journal sélectionné n'existe pas."
+
+msgid "At least one bill allocation is required."
+msgstr "Au moins une allocation de facture est requise."
+
+msgid "Allocated bill does not belong to this supplier."
+msgstr "La facture allouée n'appartient pas à ce fournisseur."
+
+msgid "Only POSTED bills can be settled."
+msgstr "Seules les factures VALIDÉES peuvent être réglées."
+
+msgid "Settlement currency must match the currency of all allocated bills."
+msgstr ""
+"La devise du règlement doit correspondre à celle de toutes les factures "
+"allouées."
+
+msgid "At least one non-zero bill allocation is required."
+msgstr "Au moins une allocation non nulle est requise."
+
+msgid "Settlement not found."
+msgstr "Règlement introuvable."
+
+msgid "Settlement must be in DRAFT status to post."
+msgstr "Le règlement doit être en BROUILLON pour être validé."
+
+msgid "Settlement has no allocations."
+msgstr "Le règlement n'a aucune allocation."
+
+msgid "FX gain account 776 is missing."
+msgstr "Le compte de gain de change 776 est manquant."
+
+msgid "FX loss account 676 is missing."
+msgstr "Le compte de perte de change 676 est manquant."
+
+msgid "No OPEN accounting period found for this date."
+msgstr "Aucune période comptable OUVERTE trouvée pour cette date."
+
+#, python-brace-format
+msgid ""
+"Allocation exceeds outstanding balance on bill {reference}. Outstanding: "
+"{outstanding}"
+msgstr ""
+"L'allocation dépasse le solde dû de la facture {reference}. Solde dû : "
+"{outstanding}"
+

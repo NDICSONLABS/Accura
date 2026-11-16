@@ -112,7 +112,11 @@ def create_and_validate_entry(
         if not account or not account.is_active or not account.is_postable:
             raise ValueError(f"Account {line_data.account_code} is invalid, inactive, or not postable.")
 
-        if account.account_class == 4 and not line_data.third_party_id:
+        # SYCEBNL: only control accounts flagged as requiring a tiers
+        # (e.g. 401 Fournisseurs, 411 Clients) need a linked Third Party.
+        # Tax (445/447) and translation (478/479) accounts are Class 4
+        # but do not carry a tiers dimension.
+        if account.requires_third_party and not line_data.third_party_id:
             raise ValueError(f"Account {account.code} (Class 4) requires a linked Third Party (Tiers).")
 
         if line_data.base_debit > 0 and line_data.base_credit > 0:

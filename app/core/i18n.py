@@ -117,6 +117,10 @@ _DYNAMIC_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         re.compile(r"^Depreciation posted as (?P<voucher>.+)\.$"),
         "Depreciation posted as {voucher}.",
     ),
+    (
+        re.compile(r"^Allocation exceeds outstanding balance on bill (?P<reference>.+)\. Outstanding: (?P<outstanding>.+)$"),
+        "Allocation exceeds outstanding balance on bill {reference}. Outstanding: {outstanding}",
+    ),
 ]
 
 

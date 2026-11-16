@@ -861,3 +861,236 @@ msgstr "No scheduled depreciation lines to post for this period."
 msgid "Depreciation total is zero; nothing to post."
 msgstr "Depreciation total is zero; nothing to post."
 
+msgid "New Settlement"
+msgstr "New Settlement"
+
+msgid "Open Bill"
+msgstr "Open Bill"
+
+msgid "Open Settlement"
+msgstr "Open Settlement"
+
+msgid "No supplier bills found."
+msgstr "No supplier bills found."
+
+msgid "Supplier"
+msgstr "Supplier"
+
+msgid "Net Payable"
+msgstr "Net Payable"
+
+msgid "Outstanding"
+msgstr "Outstanding"
+
+msgid "Payment"
+msgstr "Payment"
+
+msgid "Bill Date"
+msgstr "Bill Date"
+
+msgid "Due Date"
+msgstr "Due Date"
+
+msgid "VAT Account"
+msgstr "VAT Account"
+
+msgid "None"
+msgstr "None"
+
+msgid "Withholding Tax (XAF)"
+msgstr "Withholding Tax (XAF)"
+
+msgid "Net (XAF)"
+msgstr "Net (XAF)"
+
+msgid "VAT (XAF)"
+msgstr "VAT (XAF)"
+
+msgid "Deductible"
+msgstr "Deductible"
+
+msgid "Expenses"
+msgstr "Expenses"
+
+msgid "Deductible VAT"
+msgstr "Deductible VAT"
+
+msgid "Withholding Tax"
+msgstr "Withholding Tax"
+
+msgid "Back to Bills"
+msgstr "Back to Bills"
+
+msgid "Paid"
+msgstr "Paid"
+
+msgid "Post Bill"
+msgstr "Post Bill"
+
+msgid "Post this bill?"
+msgstr "Post this bill?"
+
+msgid "Pay This Supplier"
+msgstr "Pay This Supplier"
+
+msgid "Settlement Date"
+msgstr "Settlement Date"
+
+msgid "Treasury Account"
+msgstr "Treasury Account"
+
+msgid "Payment Rate"
+msgstr "Payment Rate"
+
+msgid "Bill Rate"
+msgstr "Bill Rate"
+
+msgid "Allocate"
+msgstr "Allocate"
+
+msgid "Liability Cleared"
+msgstr "Liability Cleared"
+
+msgid "Cash Paid"
+msgstr "Cash Paid"
+
+msgid "FX Gain"
+msgstr "FX Gain"
+
+msgid "FX Loss"
+msgstr "FX Loss"
+
+msgid "Select a supplier"
+msgstr "Select a supplier"
+
+msgid "No open bills for this supplier."
+msgstr "No open bills for this supplier."
+
+msgid "Bill"
+msgstr "Bill"
+
+msgid "Foreign"
+msgstr "Foreign"
+
+msgid "FX Gain/Loss"
+msgstr "FX Gain/Loss"
+
+msgid "Treasury"
+msgstr "Treasury"
+
+msgid "Post Settlement"
+msgstr "Post Settlement"
+
+msgid "Post this settlement?"
+msgstr "Post this settlement?"
+
+msgid "UNPAID"
+msgstr "Unpaid"
+
+msgid "PARTIALLY_PAID"
+msgstr "Partially Paid"
+
+msgid "PAID"
+msgstr "Paid"
+
+msgid "Supplier bill saved as DRAFT."
+msgstr "Supplier bill saved as DRAFT."
+
+msgid "Supplier bill has been POSTED."
+msgstr "Supplier bill has been POSTED."
+
+msgid "Settlement saved as DRAFT."
+msgstr "Settlement saved as DRAFT."
+
+msgid "Settlement has been POSTED."
+msgstr "Settlement has been POSTED."
+
+msgid "Supplier (Third Party) not found."
+msgstr "Supplier (Third Party) not found."
+
+msgid "Supplier must be linked to a Class 4 control account."
+msgstr "Supplier must be linked to a Class 4 control account."
+
+msgid "Due date cannot precede bill date."
+msgstr "Due date cannot precede bill date."
+
+msgid "Exchange rate must be greater than zero."
+msgstr "Exchange rate must be greater than zero."
+
+msgid "Multi-currency is not enabled in organization settings."
+msgstr "Multi-currency is not enabled in organization settings."
+
+msgid "At least one bill line is required."
+msgstr "At least one bill line is required."
+
+msgid "VAT account is invalid or not postable."
+msgstr "VAT account is invalid or not postable."
+
+msgid "Each bill line must have a positive net amount."
+msgstr "Each bill line must have a positive net amount."
+
+msgid "VAT amount cannot be negative."
+msgstr "VAT amount cannot be negative."
+
+msgid "Deductible VAT requires a VAT account."
+msgstr "Deductible VAT requires a VAT account."
+
+msgid "Every bill line requires an account code."
+msgstr "Every bill line requires an account code."
+
+msgid "Bill not found."
+msgstr "Bill not found."
+
+msgid "Purchase journal 'ACH' is missing. Run migrations."
+msgstr "Purchase journal 'ACH' is missing. Run migrations."
+
+msgid "Withholding tax account 447 is missing."
+msgstr "Withholding tax account 447 is missing."
+
+msgid "Treasury account must be a postable Class 5 account."
+msgstr "Treasury account must be a postable Class 5 account."
+
+msgid "Selected journal does not exist."
+msgstr "Selected journal does not exist."
+
+msgid "At least one bill allocation is required."
+msgstr "At least one bill allocation is required."
+
+msgid "Allocated bill does not belong to this supplier."
+msgstr "Allocated bill does not belong to this supplier."
+
+msgid "Only POSTED bills can be settled."
+msgstr "Only POSTED bills can be settled."
+
+msgid "Settlement currency must match the currency of all allocated bills."
+msgstr "Settlement currency must match the currency of all allocated bills."
+
+msgid "At least one non-zero bill allocation is required."
+msgstr "At least one non-zero bill allocation is required."
+
+msgid "Settlement not found."
+msgstr "Settlement not found."
+
+msgid "Settlement must be in DRAFT status to post."
+msgstr "Settlement must be in DRAFT status to post."
+
+msgid "Settlement has no allocations."
+msgstr "Settlement has no allocations."
+
+msgid "FX gain account 776 is missing."
+msgstr "FX gain account 776 is missing."
+
+msgid "FX loss account 676 is missing."
+msgstr "FX loss account 676 is missing."
+
+msgid "No OPEN accounting period found for this date."
+msgstr "No OPEN accounting period found for this date."
+
+#, python-brace-format
+msgid ""
+"Allocation exceeds outstanding balance on bill {reference}. Outstanding: "
+"{outstanding}"
+msgstr ""
+"Allocation exceeds outstanding balance on bill {reference}. Outstanding: "
+"{outstanding}"
+

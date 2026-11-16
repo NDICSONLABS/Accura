@@ -1,95 +1,183 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="max-w-5xl mx-auto" x-data="billForm()">
+<div class="max-w-7xl mx-auto" x-data="billForm({{ settings | tojson }})">
     <h1 class="text-2xl font-bold mb-6">{{ _("New Supplier Bill") }}</h1>
 
-    <form hx-post="/accruals/bills/preview" hx-target="#gl-preview" hx-trigger="keyup changed delay:500ms from:#total-base, keyup changed delay:500ms from:#withholding-tax" class="space-y-6 bg-white p-6 rounded-lg shadow">
+    <form hx-post="/accruals/bills/create" hx-target="#bill-feedback" hx-swap="innerHTML"
+          class="space-y-6 bg-white p-6 rounded-lg shadow">
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Fournisseur (Tiers)</label>
-                <select name="supplier_id" id="supplier-id" x-model="supplierId" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border">
-                    {% for s in suppliers %}
-                        <option value="{{ s.id }}">{{ s.name }}</option>
-                    {% endfor %}
+                <label class="block text-sm font-medium text-gray-700">{{ _("Supplier") }}</label>
+                <select name="third_party_id" required class="mt-1 block w-full p-2 border rounded">
+                    {% for s in suppliers %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Total Base (XAF)</label>
-                <input type="number" name="total_base" id="total-base" x-model="totalBase" @input="updatePreview" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border tabular-nums" required>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Bill Date") }}</label>
+                <input type="date" name="bill_date" required class="mt-1 block w-full p-2 border rounded">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Retenue à la source (447)</label>
-                <input type="number" name="withholding_tax" id="withholding-tax" x-model="withholdingTax" @input="updatePreview" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border tabular-nums" value="0">
+                <label class="block text-sm font-medium text-gray-700">{{ _("Due Date") }}</label>
+                <input type="date" name="due_date" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Reference") }}</label>
+                <input type="text" name="reference" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700">{{ _("Description") }}</label>
+                <input type="text" name="description" required class="mt-1 block w-full p-2 border rounded">
+            </div>
+
+            {% if settings.multi_currency_enabled %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Currency") }}</label>
+                <select name="currency_code" x-model="currency" class="mt-1 block w-full p-2 border rounded">
+                    {% for c in currencies %}<option value="{{ c.code }}">{{ c.code }}</option>{% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Rate") }}</label>
+                <input type="text" name="exchange_rate" x-model="rate" class="mt-1 block w-full p-2 border rounded text-right tabular-nums">
+            </div>
+            {% else %}
+            <input type="hidden" name="currency_code" value="XAF">
+            <input type="hidden" name="exchange_rate" value="1.000000">
+            {% endif %}
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("VAT Account") }}</label>
+                <select name="vat_account_code" class="mt-1 block w-full p-2 border rounded">
+                    <option value="">{{ _("None") }}</option>
+                    {% for a in vat_accounts %}<option value="{{ a.code }}">{{ a.code }} — {{ a.label }}</option>{% endfor %}
+                </select>
+            </div>
+
+            {% if settings.tax_withholding_enabled %}
+            <div>
+                <label class="block text-sm font-medium text-gray-700">{{ _("Withholding Tax (XAF)") }}</label>
+                <input type="number" step="1" name="withholding_tax_base" x-model="wht" @input="recalc"
+                       class="mt-1 block w-full p-2 border rounded text-right tabular-nums" value="0">
+            </div>
+            {% else %}
+            <input type="hidden" name="withholding_tax_base" value="0">
+            {% endif %}
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+                <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                    <tr>
+                        <th class="p-2">{{ _("Account") }}</th>
+                        <th class="p-2">{{ _("Description") }}</th>
+                        <th class="p-2">{{ _("Net (XAF)") }}</th>
+                        <th class="p-2">{{ _("VAT (XAF)") }}</th>
+                        <th class="p-2">{{ _("Deductible") }}</th>
+                        <th class="p-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template x-for="(line, index) in lines" :key="index">
+                        <tr class="border-b">
+                            <td class="p-2">
+                                <input type="text" name="account_codes" x-model="line.account"
+                                       list="expense-accounts" class="w-28 p-1 border rounded">
+                            </td>
+                            <td class="p-2">
+                                <input type="text" name="line_descriptions" x-model="line.description" class="w-48 p-1 border rounded">
+                            </td>
+                            <td class="p-2">
+                                <input type="number" step="1" name="net_amounts" x-model="line.net" @input="recalc"
+                                       class="w-32 p-1 border rounded text-right tabular-nums">
+                            </td>
+                            <td class="p-2">
+                                <input type="number" step="1" name="vat_amounts" x-model="line.vat" @input="recalc"
+                                       class="w-28 p-1 border rounded text-right tabular-nums">
+                            </td>
+                            <td class="p-2 text-center">
+                                <input type="hidden" name="vat_deductible_flags" :value="line.deductible ? 'true' : 'false'">
+                                <input type="checkbox" x-model="line.deductible" @change="recalc" class="w-4 h-4">
+                            </td>
+                            <td class="p-2">
+                                <button type="button" @click="removeLine(index)" x-show="lines.length > 1"
+                                        class="text-red-600">✕</button>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+
+            <datalist id="expense-accounts">
+                {% for a in expense_accounts %}<option value="{{ a.code }}">{{ a.label }}</option>{% endfor %}
+            </datalist>
+
+            <button type="button" @click="addLine" class="mt-3 text-sm text-blue-600 font-medium">
+                + {{ _("Add Line") }}
+            </button>
+        </div>
+
+        <div class="bg-slate-50 border rounded p-4">
+            <h3 class="text-sm font-bold uppercase text-slate-700 mb-3">
+                {{ _("Aperçu des Écritures Comptables (GL Preview)") }}
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm tabular-nums">
+                <div>
+                    <div class="text-gray-500">{{ _("Expenses") }}</div>
+                    <div class="font-bold" x-text="fmt(expenseTotal)"></div>
+                </div>
+                <div>
+                    <div class="text-gray-500">{{ _("Deductible VAT") }}</div>
+                    <div class="font-bold" x-text="fmt(deductibleVat)"></div>
+                </div>
+                <div>
+                    <div class="text-gray-500">{{ _("Withholding Tax") }}</div>
+                    <div class="font-bold text-red-700" x-text="fmt(whtAmount)"></div>
+                </div>
+                <div>
+                    <div class="text-gray-500">{{ _("Net Payable") }}</div>
+                    <div class="font-bold text-blue-700" x-text="fmt(netPayable)"></div>
+                </div>
             </div>
         </div>
 
-        <!-- Collapsible GL Preview Drawer -->
-        <div id="gl-preview" class="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-6">
-            <h3 class="text-sm font-bold text-slate-700 uppercase mb-3">Aperçu des Écritures Comptables (GL Preview)</h3>
-            <table class="w-full text-sm text-left">
-                <thead class="text-slate-500 border-b">
-                    <tr>
-                        <th class="py-2">Compte</th>
-                        <th class="py-2">Libellé</th>
-                        <th class="py-2 text-right">Débit (XAF)</th>
-                        <th class="py-2 text-right">Crédit (XAF)</th>
-                    </tr>
-                </thead>
-                <tbody class="tabular-nums">
-                    <tr>
-                        <td class="py-2 font-mono">60x / 61x</td>
-                        <td class="py-2">Charges (Lignes de facture)</td>
-                        <td class="py-2 text-right text-green-700" x-text="formatMoney(totalBase)"></td>
-                        <td class="py-2 text-right">-</td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 font-mono">401</td>
-                        <td class="py-2" x-text="'Fournisseur: ' + supplierName"></td>
-                        <td class="py-2 text-right">-</td>
-                        <td class="py-2 text-right text-red-700" x-text="formatMoney(netPayable)"></td>
-                    </tr>
-                    <tr x-show="withholdingTax > 0">
-                        <td class="py-2 font-mono">447</td>
-                        <td class="py-2">État, impôts retenus à la source</td>
-                        <td class="py-2 text-right">-</td>
-                        <td class="py-2 text-right text-red-700" x-text="formatMoney(withholdingTax)"></td>
-                    </tr>
-                </tbody>
-                <tfoot class="border-t font-bold bg-slate-100">
-                    <tr>
-                        <td colspan="2" class="py-2 text-right">Écart:</td>
-                        <td class="py-2 text-right" x-text="formatMoney(totalBase)"></td>
-                        <td class="py-2 text-right" x-text="formatMoney(netPayable + withholdingTax)"></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        <div id="bill-feedback"></div>
 
-        <div class="flex justify-end pt-4">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 font-medium">Enregistrer la Facture</button>
+        <div class="flex justify-end gap-4">
+            <a href="/accruals/bills/" class="px-4 py-2 border rounded">{{ _("Cancel") }}</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                {{ _("Save Draft") }}
+            </button>
         </div>
     </form>
 </div>
 
 <script>
-function billForm() {
+function billForm(settings) {
+    const blank = () => ({ account: "", description: "", net: "", vat: "", deductible: false });
     return {
-        supplierId: '',
-        supplierName: '',
-        totalBase: 0,
-        withholdingTax: 0,
-        get netPayable() { return Math.max(0, this.totalBase - this.withholdingTax); },
-        
-        updatePreview() {
-            // In a real app, this would trigger an HTMX request or update Alpine state
-            // For MVP, we update the supplier name reactively
-            const select = document.getElementById('supplier-id');
-            if(select) this.supplierName = select.options[select.selectedIndex].text;
+        settings, currency: "XAF", rate: "1.000000", wht: "0",
+        lines: [blank()],
+        expenseTotal: 0, deductibleVat: 0,
+        get whtAmount() { return parseFloat(this.wht) || 0; },
+        get netPayable() { return this.expenseTotal + this.deductibleVat - this.whtAmount; },
+        addLine() { this.lines.push(blank()); },
+        removeLine(i) { this.lines.splice(i, 1); this.recalc(); },
+        recalc() {
+            let exp = 0, ded = 0;
+            for (const l of this.lines) {
+                const net = parseFloat(l.net) || 0;
+                const vat = parseFloat(l.vat) || 0;
+                exp += net + (l.deductible ? 0 : vat);
+                if (l.deductible) ded += vat;
+            }
+            this.expenseTotal = exp;
+            this.deductibleVat = ded;
         },
-        formatMoney(amount) {
-            return new Intl.NumberFormat('fr-CM', { style: 'currency', currency: 'XAF', maximumFractionDigits: 0 }).format(amount);
+        fmt(v) {
+            return new Intl.NumberFormat("fr-CM", { style: "currency", currency: "XAF", maximumFractionDigits: 0 }).format(v);
         }
-    }
+    };
 }
 </script>
 {% endblock %}
