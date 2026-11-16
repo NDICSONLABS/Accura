@@ -1,7 +1,10 @@
 import os
 import json
+from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
+
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+
 from app.core.i18n import get_locale, get_translator
 
 
@@ -24,15 +27,26 @@ class I18nJinja2Templates(Jinja2Templates):
         return json.dumps(value, default=str, ensure_ascii=False)
 
     @staticmethod
-    def _fmoney(amount, currency="XAF"):
-        # SYCEBNL precision rule: XAF = 0 decimals, foreign currencies = 2 decimals.
-        try:
-            amount = float(amount)
-        except (TypeError, ValueError):
-            amount = 0.0
+    def _fmoney(amount, currency: str = "XAF") -> str:
+        """
+        Decimal-only money formatting.
+        XAF = 0 decimals. Foreign currencies = 2 decimals.
+        """
+        if amount is None:
+            amount = Decimal("0")
+
+        if not isinstance(amount, Decimal):
+            try:
+                amount = Decimal(str(amount))
+            except (InvalidOperation, ValueError):
+                amount = Decimal("0")
+
         if currency == "XAF":
-            return "{:,.0f}".format(amount)
-        return "{:,.2f}".format(amount)
+            rounded = amount.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+            return f"{rounded:,.0f}"
+
+        rounded = amount.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        return f"{rounded:,.2f}"
 
     def TemplateResponse(self, *args, **kwargs):
         request = kwargs.pop("request", None)
@@ -75,8 +89,8 @@ class I18nJinja2Templates(Jinja2Templates):
             context["settings"] = self._resolve_settings(context.get("settings"))
 
             return super().TemplateResponse(request, name, context, **kwargs)
-        else:
-            return super().TemplateResponse(name, context, **kwargs)
+
+        return super().TemplateResponse(name, context, **kwargs)
 
     @staticmethod
     def _resolve_settings(raw):
@@ -87,6 +101,7 @@ class I18nJinja2Templates(Jinja2Templates):
         try:
             if raw is not None:
                 return settings_to_dict(raw)
+
             db = SessionLocal()
             try:
                 settings = db.query(OrganizationSetting).first()

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">
+            {% if balance_type == 'payable' %}{{ _("Balance Âgée des Fournisseurs") }}{% else %}{{ _("Balance Âgée des Clients") }}{% endif %}
+        </h1>
+        <div class="space-x-2">
+            <a href="?balance_type=payable" class="px-3 py-1.5 rounded text-sm {% if balance_type == 'payable' %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">{{ _("Fournisseurs") }}</a>
+            <a href="?balance_type=receivable" class="px-3 py-1.5 rounded text-sm {% if balance_type == 'receivable' %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">{{ _("Clients") }}</a>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3">{{ _("Tiers") }}</th>
+                    <th class="p-3 text-right">0-30 {{ _("jours") }}</th>
+                    <th class="p-3 text-right">31-60 {{ _("jours") }}</th>
+                    <th class="p-3 text-right">61-90 {{ _("jours") }}</th>
+                    <th class="p-3 text-right">&gt; 90 {{ _("jours") }}</th>
+                    <th class="p-3 text-right">{{ _("Total") }}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+                {% for row in rows %}
+                <tr class="hover:bg-gray-50">
+                    <td class="p-3 font-medium">{{ row.third_party_name }}</td>
+                    <td class="p-3 text-right">{{ row.bucket_0_30 | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right">{{ row.bucket_31_60 | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right text-yellow-700">{{ row.bucket_61_90 | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right text-red-700 font-medium">{{ row.bucket_over_90 | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right font-bold">{{ row.total | fmoney("XAF") }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="p-8 text-center text-gray-500 italic">{{ _("Aucun solde ouvert.") }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

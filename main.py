@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from app.core.templates import templates
-from app.routers import auth, settings, coa, journals, accruals, reporting, budget
+from app.routers import auth, settings, coa, journals, accruals, reporting, budget, statements, audit
 from app.core.security import get_current_user
 from app.models.user import User
 
@@ -28,6 +28,8 @@ app.include_router(journals.router)
 app.include_router(accruals.router)
 app.include_router(reporting.router)
 app.include_router(budget.router)  # NEW
+app.include_router(statements.router)
+app.include_router(audit.router)
 
 
 @app.get("/", response_class=HTMLResponse)

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("Bilan SYCEBNL") }}</h1>
+
+    <div class="grid grid-cols-2 gap-8">
+        <!-- Actif -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="bg-blue-900 text-white p-3 font-bold uppercase text-sm">{{ _("Actif") }}</div>
+            <table class="w-full text-sm tabular-nums">
+                <tbody class="divide-y divide-gray-100">
+                    {% for row in data.actif %}
+                    <tr>
+                        <td class="p-2 font-mono text-gray-500">{{ row.account_code }}</td>
+                        <td class="p-2">{{ row.account_label }}</td>
+                        <td class="p-2 text-right font-medium">{{ row.amount | fmoney("XAF") }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="bg-blue-50 font-bold border-t-2">
+                        <td colspan="2" class="p-2 text-right uppercase">{{ _("Total Actif") }}</td>
+                        <td class="p-2 text-right">{{ data.total_actif | fmoney("XAF") }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Passif -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="bg-purple-900 text-white p-3 font-bold uppercase text-sm">{{ _("Passif") }}</div>
+            <table class="w-full text-sm tabular-nums">
+                <tbody class="divide-y divide-gray-100">
+                    {% for row in data.passif %}
+                    <tr>
+                        <td class="p-2 font-mono text-gray-500">{{ row.account_code }}</td>
+                        <td class="p-2">{{ row.account_label }}</td>
+                        <td class="p-2 text-right font-medium">{{ row.amount | fmoney("XAF") }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr class="bg-purple-50 font-bold border-t-2">
+                        <td colspan="2" class="p-2 text-right uppercase">{{ _("Total Passif") }}</td>
+                        <td class="p-2 text-right">{{ data.total_passif | fmoney("XAF") }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if data.total_actif != data.total_passif %}
+    <div class="mt-4 bg-yellow-100 border border-yellow-400 text-yellow-800 p-3 rounded text-sm">
+        ⚠️ {{ _("Attention: Le Bilan n'est pas équilibré. Vérifiez les écritures de report à nouveau.") }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
