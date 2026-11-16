@@ -8,26 +8,33 @@ from app.core.i18n import get_locale, get_translator
 class I18nJinja2Templates(Jinja2Templates):
     """
     Custom Jinja2Templates wrapper that:
-      1. Handles both legacy (name, context) and modern (request, name, context) signatures.
-      2. Injects the i18n `_` translation function and current `locale` into every template.
-      3. Auto-injects a normalized `settings` dict into every template so feature-flag
-         driven navigation/UI is consistent regardless of which router rendered the page.
-      4. Registers a `tojson` filter for safely embedding Python objects as JSON.
+      1. Handles both legacy and modern Starlette TemplateResponse signatures.
+      2. Injects the i18n `_` function and `locale` into every template.
+      3. Auto-injects a normalized `settings` dict into every template.
+      4. Registers `tojson` and `fmoney` filters for safe rendering.
     """
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # `tojson` is NOT available in plain Starlette/Jinja2 by default — register it.
         self.env.filters["tojson"] = self._tojson
+        self.env.filters["fmoney"] = self._fmoney
 
     @staticmethod
     def _tojson(value):
-        # Return a plain string; Jinja2 autoescape will HTML-escape it appropriately
-        # for the surrounding context (safe inside HTML attributes such as x-data).
         return json.dumps(value, default=str, ensure_ascii=False)
 
+    @staticmethod
+    def _fmoney(amount, currency="XAF"):
+        # SYCEBNL precision rule: XAF = 0 decimals, foreign currencies = 2 decimals.
+        try:
+            amount = float(amount)
+        except (TypeError, ValueError):
+            amount = 0.0
+        if currency == "XAF":
+            return "{:,.0f}".format(amount)
+        return "{:,.2f}".format(amount)
+
     def TemplateResponse(self, *args, **kwargs):
-        # --- Argument normalization (support old & new Starlette signatures) ---
         request = kwargs.pop("request", None)
         name = kwargs.pop("name", None)
         context = kwargs.pop("context", None)
@@ -57,30 +64,22 @@ class I18nJinja2Templates(Jinja2Templates):
         if request:
             context["request"] = request
 
-            # --- i18n injection ---
             try:
                 locale = get_locale(request)
                 translator = get_translator(locale)
                 context["_"] = translator.gettext
                 context["locale"] = locale
             except Exception:
-                pass  # Fail gracefully if i18n is misconfigured
+                pass
 
-            # --- Consistent settings injection (normalized dict) ---
             context["settings"] = self._resolve_settings(context.get("settings"))
 
-            # Always call parent with the modern signature: (request, name, context)
             return super().TemplateResponse(request, name, context, **kwargs)
         else:
             return super().TemplateResponse(name, context, **kwargs)
 
     @staticmethod
     def _resolve_settings(raw):
-        """
-        Normalize settings into a plain, JSON-safe dict so every template can rely on
-        a consistent structure, whether a router passed an ORM object, a dict, or nothing.
-        """
-        # Lazy imports to avoid circular dependencies at module load time.
         from app.services.settings_service import settings_to_dict
         from app.core.database import SessionLocal
         from app.models.settings import OrganizationSetting
@@ -88,7 +87,6 @@ class I18nJinja2Templates(Jinja2Templates):
         try:
             if raw is not None:
                 return settings_to_dict(raw)
-
             db = SessionLocal()
             try:
                 settings = db.query(OrganizationSetting).first()

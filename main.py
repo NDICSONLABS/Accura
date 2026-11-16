@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from app.core.templates import templates
-from app.routers import auth, settings, coa, journals, accruals, reporting
+from app.routers import auth, settings, coa, journals, accruals, reporting, budget
 from app.core.security import get_current_user
 from app.models.user import User
 
-app = FastAPI(title="Accura SYCEBNL", version="0.5.0")
+app = FastAPI(title="Accura SYCEBNL", version="0.6.0")
 
-# --- GLOBAL EXCEPTION HANDLER FOR WEB REDIRECTS ---
+
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):
     if exc.status_code == 401:
@@ -20,12 +20,15 @@ async def http_exception_handler(request: Request, exc: HTTPException):
 
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
+
 app.include_router(auth.router)
 app.include_router(settings.router)
 app.include_router(coa.router)
 app.include_router(journals.router)
 app.include_router(accruals.router)
-app.include_router(reporting.router)  # CRITICAL: Must be included
+app.include_router(reporting.router)
+app.include_router(budget.router)  # NEW
+
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request, user: User = Depends(get_current_user)) -> HTMLResponse:
