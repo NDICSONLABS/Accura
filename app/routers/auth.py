@@ -1,42 +1,45 @@
-from fastapi import APIRouter, Depends, Form, Request, Response, HTTPException, status
+from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import RedirectResponse, HTMLResponse
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import verify_password, set_session, clear_session
 from app.models.user import User
+from app.core.templates import templates
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    from app.core.templates import templates
-    return templates.TemplateResponse("auth/login.html", {"request": request})
+    return templates.TemplateResponse(request, "auth/login.html", {})
 
 
-@router.post("/login", response_class=HTMLResponse)
+@router.post("/login")
 async def login_submit(
         request: Request,
-        response: Response,
         email: str = Form(...),
         password: str = Form(...),
         db: Session = Depends(get_db)
 ):
-    # No return type annotation here to prevent FastAPI Pydantic validation errors
     user = db.query(User).filter(User.email == email).first()
     if not user or not verify_password(password, user.password_hash):
-        from app.core.templates import templates
-        return templates.TemplateResponse("auth/login.html", {
-            "request": request,
-            "error": "Invalid email or password"
+        return templates.TemplateResponse(request, "auth/login.html", {
+            "error": "Email ou mot de passe invalide"
         }, status_code=400)
 
-    set_session(response, user.id)
-    return RedirectResponse(url="/", status_code=303)
+    # 1. Create the redirect response FIRST
+    redirect_response = RedirectResponse(url="/", status_code=303)
+
+    # 2. Set the cookie DIRECTLY on the redirect response
+    set_session(redirect_response, user.id)
+
+    # 3. Return it
+    return redirect_response
 
 
 @router.post("/logout")
-async def logout(response: Response):
-    # No return type annotation here either
-    clear_session(response)
-    return RedirectResponse(url="/auth/login", status_code=303)
+async def logout():
+    # Same fix here for logout
+    redirect_response = RedirectResponse(url="/auth/login", status_code=303)
+    clear_session(redirect_response)
+    return redirect_response

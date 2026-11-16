@@ -1,0 +1,43 @@
+<!-- This fragment is returned by the /accruals/bills/preview endpoint -->
+<div class="bg-slate-50 border border-slate-200 rounded-lg p-4 mt-6 transition-all duration-300">
+    <h3 class="text-sm font-bold text-slate-700 uppercase mb-3">Aperçu des Écritures Comptables (GL Preview)</h3>
+    <table class="w-full text-sm text-left">
+        <thead class="text-slate-500 border-b">
+            <tr>
+                <th class="py-2">Compte</th>
+                <th class="py-2">Libellé</th>
+                <th class="py-2 text-right">Débit (XAF)</th>
+                <th class="py-2 text-right">Crédit (XAF)</th>
+            </tr>
+        </thead>
+        <tbody class="tabular-nums">
+            <tr>
+                <td class="py-2 font-mono">60x / 61x</td>
+                <td class="py-2">Charges (Lignes de facture)</td>
+                <td class="py-2 text-right text-green-700">{{ "{:,.0f}".format(total_base) }} XAF</td>
+                <td class="py-2 text-right">-</td>
+            </tr>
+            <tr>
+                <td class="py-2 font-mono">401</td>
+                <td class="py-2">Fournisseur: {{ supplier_name }}</td>
+                <td class="py-2 text-right">-</td>
+                <td class="py-2 text-right text-red-700">{{ "{:,.0f}".format(net_payable) }} XAF</td>
+            </tr>
+            {% if withholding_tax > 0 %}
+            <tr>
+                <td class="py-2 font-mono">447</td>
+                <td class="py-2">État, impôts retenus à la source</td>
+                <td class="py-2 text-right">-</td>
+                <td class="py-2 text-right text-red-700">{{ "{:,.0f}".format(withholding_tax) }} XAF</td>
+            </tr>
+            {% endif %}
+        </tbody>
+        <tfoot class="border-t font-bold bg-slate-100">
+            <tr>
+                <td colspan="2" class="py-2 text-right">Équilibre:</td>
+                <td class="py-2 text-right text-green-700">{{ "{:,.0f}".format(total_base) }} XAF</td>
+                <td class="py-2 text-right text-green-700">{{ "{:,.0f}".format(net_payable + withholding_tax) }} XAF</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
