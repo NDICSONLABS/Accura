@@ -27,23 +27,34 @@ def get_budget_vs_actual(
     fund_id: int | None = None,
     project_id: int | None = None,
     view_currency: str = "XAF",
+    rate_mode: str = "SPOT",
+    grant_id: int | None = None,
 ) -> list[BudgetLineReport]:
     """
     Build the Budget vs. Actual report.
     view_currency is the TARGET currency code (e.g. "XAF", "USD").
     Amounts are converted from the XAF ledger to the target currency when needed.
+    rate_mode:
+      SPOT           -> latest ExchangeRate for the target currency
+      GRANT_WEIGHTED -> tranche weighted-average rate of the selected grant
     """
     # 1. Resolve the conversion rate for grant-currency view
+
     conversion_rate = Decimal("1")
+
     if view_currency != "XAF":
-        rate_row = (
-            db.query(ExchangeRate)
-            .filter(ExchangeRate.currency_code == view_currency)
-            .order_by(ExchangeRate.effective_date.desc())
-            .first()
-        )
-        if rate_row and rate_row.rate and rate_row.rate > 0:
-            conversion_rate = rate_row.rate
+        if rate_mode == "GRANT_WEIGHTED" and grant_id:
+            from app.services.grant_service import get_grant_weighted_rate
+            conversion_rate = get_grant_weighted_rate(db, grant_id)
+        else:
+            rate_row = (
+                db.query(ExchangeRate)
+                .filter(ExchangeRate.currency_code == view_currency)
+                .order_by(ExchangeRate.effective_date.desc())
+                .first()
+            )
+            if rate_row and rate_row.rate and rate_row.rate > 0:
+                conversion_rate = rate_row.rate
 
     # 2. Load matching budget lines
     budget_query = db.query(BudgetLine).filter(BudgetLine.fiscal_year_id == fiscal_year_id)

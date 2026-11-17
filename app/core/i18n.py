@@ -121,6 +121,14 @@ _DYNAMIC_PATTERNS: list[tuple[re.Pattern[str], str]] = [
         re.compile(r"^Allocation exceeds outstanding balance on bill (?P<reference>.+)\. Outstanding: (?P<outstanding>.+)$"),
         "Allocation exceeds outstanding balance on bill {reference}. Outstanding: {outstanding}",
     ),
+    (
+        re.compile(r"^Receipt exceeds outstanding fund call (?P<reference>.+)\. Outstanding: (?P<outstanding>.+)$"),
+        "Receipt exceeds outstanding fund call {reference}. Outstanding: {outstanding}",
+    ),
+    (
+        re.compile(r"^Approved budget cannot be reduced below posted consumption\. Consumed: (?P<consumed>.+)$"),
+        "Approved budget cannot be reduced below posted consumption. Consumed: {consumed}",
+    ),
 ]
 
 

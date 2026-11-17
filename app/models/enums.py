@@ -46,3 +46,20 @@ class DepreciationStatus(str, enum.Enum):
     SCHEDULED = "SCHEDULED"
     POSTED = "POSTED"
     SKIPPED = "SKIPPED"
+
+
+class GrantStatus(str, enum.Enum):
+    DRAFT = "DRAFT"
+    ACTIVE = "ACTIVE"
+    CLOSED = "CLOSED"
+
+
+class TrancheStatus(str, enum.Enum):
+    PLANNED = "PLANNED"
+    CALLED = "CALLED"
+    RECEIVED = "RECEIVED"
+
+
+class FxDirection(str, enum.Enum):
+    LOSS = "LOSS"
+    GAIN = "GAIN"

@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>{{ title or "Accura SYCEBNL" }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/alpinejs@3.13.3" defer></script>
     <style> [x-cloak] { display: none !important; } </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans"
+      hx-headers='js:{"X-CSRF-Token": document.querySelector("meta[name=csrf-token]").content}'>
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <aside class="w-64 bg-slate-900 text-white flex flex-col">
@@ -26,6 +28,7 @@
                 <a href="/reporting/gl" class="block p-2 rounded hover:bg-slate-700">{{ _("Grand Livre") }}</a>
                 <a href="/reporting/trial-balance?fy_id=1&as_of=2026-12-31" class="block p-2 rounded hover:bg-slate-700">{{ _("Balance Générale") }}</a>
                 <a href="/reporting/closing" class="block p-2 rounded hover:bg-slate-700">{{ _("Clôture & FX") }}</a>
+                <a href="/closing/" class="block p-2 rounded hover:bg-slate-700">{{ _("Closing Engine") }}</a>
 
                 <!-- Conditional modules driven by normalized settings -->
                 {% if settings.multi_currency_enabled %}
@@ -48,6 +51,7 @@
                     <a href="?lang=en" class="px-2 py-1 rounded {% if locale == 'en' %}bg-slate-700 text-white{% else %}text-slate-400{% endif %} hover:bg-slate-700">EN</a>
                 </div>
                 <form action="/auth/logout" method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <button type="submit" class="text-red-400 hover:text-red-300">{{ _("Logout") }}</button>
                 </form>
             </div>

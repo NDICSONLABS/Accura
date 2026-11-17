@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-5xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">{{ _("FX Revaluation") }} — {{ run.as_of_date.strftime('%d/%m/%Y') }}</h1>
+        <a href="/closing/" class="text-blue-600 hover:underline">{{ _("Back") }}</a>
+    </div>
+
+    {% if unprovisioned_loss %}
+    <div class="bg-yellow-100 border border-yellow-400 text-yellow-800 p-4 rounded mb-6 text-sm">
+        {{ _("Latent exchange loss is not provisioned. OHADA requires a provision for latent losses.") }}
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg shadow mb-6 text-sm tabular-nums">
+        <div><div class="text-gray-500">{{ _("Latent Loss") }} (478)</div>
+            <div class="font-bold text-red-700">{{ run.total_latent_loss_base | fmoney("XAF") }}</div></div>
+        <div><div class="text-gray-500">{{ _("Latent Gain") }} (479)</div>
+            <div class="font-bold text-green-700">{{ run.total_latent_gain_base | fmoney("XAF") }}</div></div>
+        <div><div class="text-gray-500">{{ _("Status") }}</div><div class="font-bold">{{ _(run.status.value) }}</div></div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto mb-6">
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr><th class="p-3">{{ _("Account") }}</th><th class="p-3">{{ _("Currency") }}</th>
+                    <th class="p-3 text-right">{{ _("Foreign") }}</th><th class="p-3 text-right">{{ _("Historical") }}</th>
+                    <th class="p-3 text-right">{{ _("Closing Rate") }}</th><th class="p-3 text-right">{{ _("Revalued") }}</th>
+                    <th class="p-3 text-right">{{ _("Difference") }}</th><th class="p-3">{{ _("Direction") }}</th></tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for line, account in lines %}
+                <tr>
+                    <td class="p-3 font-mono">{{ account.code }}</td>
+                    <td class="p-3">{{ line.currency_code }}</td>
+                    <td class="p-3 text-right">{{ "{:,.2f}".format(line.foreign_balance) }}</td>
+                    <td class="p-3 text-right">{{ line.historical_base | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right">{{ line.closing_rate }}</td>
+                    <td class="p-3 text-right">{{ line.revalued_base | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right {% if line.difference_base > 0 %}text-green-700{% else %}text-red-700{% endif %}">
+                        {{ line.difference_base | fmoney("XAF") }}</td>
+                    <td class="p-3">{{ _(line.direction.value) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="fx-feedback" class="mb-6"></div>
+
+    <div class="bg-white shadow rounded-lg p-6 flex flex-wrap gap-4 items-end">
+        {% if run.journal_entry_id %}
+        <a href="/accounting/journals/{{ run.journal_entry_id }}" class="bg-slate-700 text-white px-4 py-2 rounded">
+            {{ _("Open Entry") }}
+        </a>
+        {% endif %}
+
+        {% if not run.reversal_entry_id %}
+        <form hx-post="/closing/fx/{{ run.id }}/reverse" hx-target="#fx-feedback" class="flex gap-3 items-end">
+            <div><label class="block text-xs font-medium">{{ _("Reversal Date") }}</label>
+                <input type="date" name="reversal_date" required class="w-44 p-2 border rounded"></div>
+            <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">
+                {{ _("Reverse Revaluation") }}
+            </button>
+        </form>
+        {% else %}
+        <a href="/accounting/journals/{{ run.reversal_entry_id }}" class="text-blue-600 underline">
+            {{ _("View Reversal") }}
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

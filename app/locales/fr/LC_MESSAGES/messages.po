@@ -1233,3 +1233,554 @@ msgstr ""
 "L'allocation dépasse le solde dû de la facture {reference}. Solde dû : "
 "{outstanding}"
 
+msgid "Donor Grants"
+msgstr "Conventions de financement"
+
+msgid "New Grant"
+msgstr "Nouvelle convention"
+
+msgid "Donor"
+msgstr "Bailleur"
+
+msgid "No grant agreements found."
+msgstr "Aucune convention trouvée."
+
+msgid "Restricted Fund"
+msgstr "Fonds dédié"
+
+msgid "Restricted Fund Account"
+msgstr "Compte de fonds dédiés"
+
+msgid "Committed Amount"
+msgstr "Montant engagé"
+
+msgid "Start Date"
+msgstr "Date de début"
+
+msgid "End Date"
+msgstr "Date de fin"
+
+msgid "Open Grant"
+msgstr "Ouvrir la convention"
+
+msgid "Back to Grants"
+msgstr "Retour aux conventions"
+
+msgid "Called"
+msgstr "Appelé"
+
+msgid "Weighted Rate"
+msgstr "Taux moyen pondéré"
+
+msgid "Tranches"
+msgstr "Tranches"
+
+msgid "Activate Grant"
+msgstr "Activer la convention"
+
+msgid "New Fund Call"
+msgstr "Nouvel appel de fonds"
+
+msgid "Expected"
+msgstr "Prévu"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "Add Tranche"
+msgstr "Ajouter une tranche"
+
+msgid "No tranches yet."
+msgstr "Aucune tranche."
+
+msgid "Fund Calls"
+msgstr "Appels de fonds"
+
+msgid "No fund calls yet."
+msgstr "Aucun appel de fonds."
+
+msgid "Post"
+msgstr "Valider"
+
+msgid "Record Receipt"
+msgstr "Enregistrer l'encaissement"
+
+msgid "Tranche"
+msgstr "Tranche"
+
+msgid "No tranche link"
+msgstr "Sans lien de tranche"
+
+msgid "Call Date"
+msgstr "Date d'appel"
+
+msgid "Grant Receipt"
+msgstr "Encaissement de subvention"
+
+msgid "Call Rate"
+msgstr "Taux d'appel"
+
+msgid "Receipt Date"
+msgstr "Date d'encaissement"
+
+msgid "Receipt Rate"
+msgstr "Taux d'encaissement"
+
+msgid "Cash Received"
+msgstr "Montant encaissé"
+
+msgid "Receivable Cleared"
+msgstr "Créance apurée"
+
+msgid "Budget Maintenance"
+msgstr "Maintenance budgétaire"
+
+msgid "Add Budget Line"
+msgstr "Ajouter une ligne budgétaire"
+
+msgid "Approved Amount"
+msgstr "Montant approuvé"
+
+msgid "Approved"
+msgstr "Approuvé"
+
+msgid "Consumed"
+msgstr "Consommé"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Delete this budget line?"
+msgstr "Supprimer cette ligne budgétaire ?"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "CLOSED"
+msgstr "Clôturée"
+
+msgid "PLANNED"
+msgstr "Planifiée"
+
+msgid "CALLED"
+msgstr "Appelée"
+
+msgid "RECEIVED"
+msgstr "Encaissée"
+
+msgid "PENDING"
+msgstr "En attente"
+
+msgid "PARTIALLY_RECEIVED"
+msgstr "Partiellement encaissée"
+
+msgid "Grant agreement created."
+msgstr "Convention créée."
+
+msgid "Tranche added."
+msgstr "Tranche ajoutée."
+
+msgid "Grant activated."
+msgstr "Convention activée."
+
+msgid "Fund call saved as DRAFT."
+msgstr "Appel de fonds enregistré en brouillon."
+
+msgid "Fund call has been POSTED."
+msgstr "Appel de fonds VALIDÉ."
+
+msgid "Receipt saved as DRAFT."
+msgstr "Encaissement enregistré en brouillon."
+
+msgid "Receipt has been POSTED."
+msgstr "Encaissement VALIDÉ."
+
+msgid "Budget line created."
+msgstr "Ligne budgétaire créée."
+
+msgid "Budget line updated."
+msgstr "Ligne budgétaire mise à jour."
+
+msgid "Budget line deleted."
+msgstr "Ligne budgétaire supprimée."
+
+msgid "Grant end date cannot precede start date."
+msgstr "La date de fin ne peut pas précéder la date de début."
+
+msgid "Committed amount cannot be negative."
+msgstr "Le montant engagé ne peut pas être négatif."
+
+msgid "Donor fund tracking is not enabled in organization settings."
+msgstr "Le suivi par bailleur n'est pas activé dans les paramètres."
+
+msgid "Donor (Third Party) not found."
+msgstr "Bailleur (Tiers) introuvable."
+
+msgid "Fund not found."
+msgstr "Fonds introuvable."
+
+msgid "Grant fund must be a restricted fund."
+msgstr "Le fonds de la convention doit être un fonds dédié."
+
+msgid "Grant currency must match the fund currency."
+msgstr "La devise de la convention doit correspondre à celle du fonds."
+
+msgid "Restricted fund account must be a postable Class 1 account."
+msgstr "Le compte de fonds dédiés doit être un compte de Classe 1 mouvementable."
+
+msgid "Receivable account must be a postable account requiring a Third Party."
+msgstr "Le compte de créance doit être mouvementable et exiger un Tiers."
+
+msgid "Grant not found."
+msgstr "Convention introuvable."
+
+msgid "Tranche amount must be positive."
+msgstr "Le montant de la tranche doit être positif."
+
+msgid "Tranche number must be positive."
+msgstr "Le numéro de tranche doit être positif."
+
+msgid "This tranche number already exists for the grant."
+msgstr "Ce numéro de tranche existe déjà pour la convention."
+
+msgid "Grant requires at least one tranche before activation."
+msgstr "La convention exige au moins une tranche avant activation."
+
+msgid "Grant must be ACTIVE before issuing a fund call."
+msgstr "La convention doit être ACTIVE avant tout appel de fonds."
+
+msgid "Fund call amount must be positive."
+msgstr "Le montant de l'appel doit être positif."
+
+msgid "Tranche does not belong to this grant."
+msgstr "La tranche n'appartient pas à cette convention."
+
+msgid "Only PLANNED tranches can be called."
+msgstr "Seules les tranches PLANIFIÉES peuvent être appelées."
+
+msgid "Fund call cannot exceed the tranche amount."
+msgstr "L'appel de fonds ne peut pas dépasser le montant de la tranche."
+
+msgid "Fund call not found."
+msgstr "Appel de fonds introuvable."
+
+msgid "Fund call must be in DRAFT status to post."
+msgstr "L'appel de fonds doit être en BROUILLON pour être validé."
+
+msgid "Grant journal 'SUB' is missing. Run migrations."
+msgstr "Le journal 'SUB' est manquant. Exécutez les migrations."
+
+msgid "Only POSTED fund calls can be received."
+msgstr "Seuls les appels de fonds VALIDÉS peuvent être encaissés."
+
+msgid "Receipt amount must be positive."
+msgstr "Le montant de l'encaissement doit être positif."
+
+msgid "Receipt not found."
+msgstr "Encaissement introuvable."
+
+msgid "Receipt must be in DRAFT status to post."
+msgstr "L'encaissement doit être en BROUILLON pour être validé."
+
+msgid "Approved budget cannot be negative."
+msgstr "Le budget approuvé ne peut pas être négatif."
+
+msgid "Budget account is invalid or not postable."
+msgstr "Le compte budgétaire est invalide ou non mouvementable."
+
+msgid ""
+"Budget lines are allowed only on Class 6 (expense) or Class 2 (asset) "
+"accounts."
+msgstr ""
+"Les lignes budgétaires ne sont autorisées que sur les comptes de Classe 6"
+" ou 2."
+
+msgid "Fiscal year not found."
+msgstr "Exercice introuvable."
+
+msgid "A budget line already exists for this account / fund / project / year."
+msgstr ""
+"Une ligne budgétaire existe déjà pour ce compte / fonds / projet / "
+"exercice."
+
+msgid "Budget line not found."
+msgstr "Ligne budgétaire introuvable."
+
+msgid "Cannot delete a budget line that already has posted consumption."
+msgstr "Impossible de supprimer une ligne budgétaire déjà consommée."
+
+msgid "Cannot delete a budget line referenced by journal entries."
+msgstr "Impossible de supprimer une ligne budgétaire référencée par des écritures."
+
+#, python-brace-format
+msgid ""
+"Receipt exceeds outstanding fund call {reference}. Outstanding: "
+"{outstanding}"
+msgstr ""
+"L'encaissement dépasse le solde de l'appel {reference}. Solde : "
+"{outstanding}"
+
+#, python-brace-format
+msgid ""
+"Approved budget cannot be reduced below posted consumption. Consumed: "
+"{consumed}"
+msgstr ""
+"Le budget approuvé ne peut pas être inférieur à la consommation validée. "
+"Consommé : {consumed}"
+
+msgid "CSRF validation failed"
+msgstr "Échec de la validation CSRF"
+
+msgid "Too many failed login attempts. Please try again later."
+msgstr "Trop de tentatives de connexion échouées. Veuillez réessayer plus tard."
+
+msgid "Audit chain verified."
+msgstr "Chaîne d'audit vérifiée."
+
+msgid "Audit chain integrity violation detected."
+msgstr "Violation d'intégrité de la chaîne d'audit détectée."
+
+msgid "Closing Engine"
+msgstr "Moteur de clôture"
+
+msgid "Closing Checklist"
+msgstr "Checklist de clôture"
+
+msgid "Ready to close."
+msgstr "Prêt à clôturer."
+
+msgid "Soft Lock"
+msgstr "Verrouiller"
+
+msgid "FX Revaluation"
+msgstr "Réévaluation FX"
+
+msgid "Close Fiscal Year"
+msgstr "Clôturer l'exercice"
+
+msgid "Open Next Year"
+msgstr "Ouvrir l'exercice suivant"
+
+msgid "Carry Forward Result"
+msgstr "Affecter le résultat"
+
+msgid "Close this fiscal year? This cannot be undone."
+msgstr "Clôturer cet exercice ? Cette action est irréversible."
+
+msgid "FX Revaluations"
+msgstr "Réévaluations FX"
+
+msgid "As Of"
+msgstr "Au"
+
+msgid "Latent Loss"
+msgstr "Perte latente"
+
+msgid "Latent Gain"
+msgstr "Gain latent"
+
+msgid "Reversed"
+msgstr "Contre-passée"
+
+msgid "Open"
+msgstr "Ouvrir"
+
+msgid "No revaluations yet."
+msgstr "Aucune réévaluation."
+
+msgid "Closing Rates"
+msgstr "Taux de clôture"
+
+msgid "Latent Loss Provision (optional)"
+msgstr "Provision pour perte latente (facultatif)"
+
+msgid ""
+"OHADA requires provisioning latent exchange losses. Supply the policy "
+"accounts to post the provision."
+msgstr ""
+"L'OHADA exige une provision pour pertes de change latentes. Indiquez les "
+"comptes de politique comptable pour comptabiliser la provision."
+
+msgid "Provision Expense (Class 6)"
+msgstr "Charge de provision (Classe 6)"
+
+msgid "Provision Account (Class 1)"
+msgstr "Compte de provision (Classe 1)"
+
+msgid "Open Exposures"
+msgstr "Positions ouvertes"
+
+msgid "Foreign Balance"
+msgstr "Solde en devise"
+
+msgid "Historical XAF"
+msgstr "Contre-valeur historique"
+
+msgid "No foreign currency exposure at this date."
+msgstr "Aucune position en devise à cette date."
+
+msgid "Run Revaluation"
+msgstr "Lancer la réévaluation"
+
+msgid ""
+"Latent exchange loss is not provisioned. OHADA requires a provision for "
+"latent losses."
+msgstr ""
+"La perte de change latente n'est pas provisionnée. L'OHADA exige une "
+"provision."
+
+msgid "Historical"
+msgstr "Historique"
+
+msgid "Revalued"
+msgstr "Réévalué"
+
+msgid "Direction"
+msgstr "Sens"
+
+msgid "Reverse Revaluation"
+msgstr "Contre-passer la réévaluation"
+
+msgid "View Reversal"
+msgstr "Voir la contre-passation"
+
+msgid "Open Revaluation"
+msgstr "Ouvrir la réévaluation"
+
+msgid "Open Result Entry"
+msgstr "Ouvrir l'écriture de résultat"
+
+msgid "Refresh Dashboard"
+msgstr "Rafraîchir"
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "LOSS"
+msgstr "Perte"
+
+msgid "GAIN"
+msgstr "Gain"
+
+msgid "SOFT_LOCKED"
+msgstr "Verrouillée"
+
+msgid "Period soft-locked."
+msgstr "Période verrouillée."
+
+msgid "FX revaluation posted."
+msgstr "Réévaluation FX validée."
+
+msgid "FX revaluation reversed."
+msgstr "Réévaluation FX contre-passée."
+
+msgid "Fiscal year closed."
+msgstr "Exercice clôturé."
+
+msgid "Next fiscal year opened."
+msgstr "Exercice suivant ouvert."
+
+msgid "Result carried forward."
+msgstr "Résultat affecté."
+
+msgid "Revaluation period must be OPEN."
+msgstr "La période de réévaluation doit être OUVERTE."
+
+msgid "A previous FX revaluation must be reversed before running a new one."
+msgstr ""
+"Une réévaluation précédente doit être contre-passée avant d'en lancer une"
+" nouvelle."
+
+msgid "At least one closing rate is required."
+msgstr "Au moins un taux de clôture est requis."
+
+msgid "No foreign currency exposure requires revaluation at these rates."
+msgstr "Aucune position en devise ne nécessite de réévaluation à ces taux."
+
+msgid "Closing journal 'CLOT' is missing. Run migrations."
+msgstr "Le journal de clôture 'CLOT' est manquant. Exécutez les migrations."
+
+msgid "Translation accounts 478 / 479 are missing. Run migrations."
+msgstr ""
+"Les comptes d'écart de conversion 478 / 479 sont manquants. Exécutez les "
+"migrations."
+
+msgid "Provisioning requires both an expense account and a provision account."
+msgstr "La provision exige un compte de charge et un compte de provision."
+
+msgid "Provision expense account must be a postable Class 6 account."
+msgstr ""
+"Le compte de charge de provision doit être un compte de Classe 6 "
+"mouvementable."
+
+msgid "Provision account must be a postable Class 1 account."
+msgstr "Le compte de provision doit être un compte de Classe 1 mouvementable."
+
+msgid "Revaluation run not found."
+msgstr "Réévaluation introuvable."
+
+msgid "Only POSTED revaluations can be reversed."
+msgstr "Seules les réévaluations VALIDÉES peuvent être contre-passées."
+
+msgid "This revaluation has already been reversed."
+msgstr "Cette réévaluation a déjà été contre-passée."
+
+msgid "Fiscal year has no accounting periods."
+msgstr "L'exercice n'a aucune période comptable."
+
+msgid "Fiscal year is already CLOSED."
+msgstr "L'exercice est déjà CLÔTURÉ."
+
+msgid "All periods except the last must be soft-locked or closed."
+msgstr ""
+"Toutes les périodes sauf la dernière doivent être verrouillées ou "
+"clôturées."
+
+msgid "The last period must be OPEN to receive the result entry."
+msgstr ""
+"La dernière période doit être OUVERTE pour recevoir l'écriture de "
+"résultat."
+
+msgid "Trial balance is not balanced."
+msgstr "La balance générale n'est pas équilibrée."
+
+msgid "Fiscal year is already closed."
+msgstr "L'exercice est déjà clôturé."
+
+msgid "Result account 131 must be postable. Run migrations."
+msgstr ""
+"Le compte de résultat 131 doit être mouvementable. Exécutez les "
+"migrations."
+
+msgid "No management balances to close for this fiscal year."
+msgstr "Aucun solde de gestion à clôturer pour cet exercice."
+
+msgid "Fiscal year code must be numeric to derive the next year."
+msgstr "Le code d'exercice doit être numérique pour déduire l'année suivante."
+
+msgid "Fiscal year has not been closed yet."
+msgstr "L'exercice n'est pas encore clôturé."
+
+msgid "Result has already been carried forward."
+msgstr "Le résultat a déjà été affecté."
+
+msgid "Open the next fiscal year before carrying forward the result."
+msgstr "Ouvrez l'exercice suivant avant d'affecter le résultat."
+
+msgid "The next fiscal year has no OPEN period."
+msgstr "L'exercice suivant n'a aucune période OUVERTE."
+
+msgid "Retained earnings account 121 must be postable. Run migrations."
+msgstr ""
+"Le compte de report à nouveau 121 doit être mouvementable. Exécutez les "
+"migrations."
+
+msgid "Result is zero; nothing to carry forward."
+msgstr "Le résultat est nul ; rien à affecter."
+

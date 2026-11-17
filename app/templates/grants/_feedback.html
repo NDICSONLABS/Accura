@@ -1,0 +1,14 @@
+{% if success %}
+<div class="bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded">
+    <p class="font-medium">{{ tmsg(success) }}</p>
+    <div class="mt-2 flex gap-3 text-sm">
+        {% if grant %}<a href="/grants/{{ grant.id }}" class="underline">{{ _("Open Grant") }}</a>{% endif %}
+        {% if grant_id and not grant %}<a href="/grants/{{ grant_id }}" class="underline">{{ _("Open Grant") }}</a>{% endif %}
+        {% if call %}<a href="/grants/receipts/new?call_id={{ call.id }}" class="underline">{{ _("Record Receipt") }}</a>{% endif %}
+        {% if receipt %}<a href="/grants/{{ receipt.fund_call_id }}" class="underline">{{ _("Back") }}</a>{% endif %}
+    </div>
+</div>
+{% endif %}
+{% if error %}
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">{{ error }}</div>
+{% endif %}

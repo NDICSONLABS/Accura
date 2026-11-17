@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("Closing Engine") }}</h1>
+
+    <form method="GET" action="/closing/" class="bg-white p-4 rounded-lg shadow mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Fiscal Year") }}</label>
+        <select name="fy_id" onchange="this.form.submit()" class="block w-40 p-2 border rounded">
+            {% for y in years %}
+            <option value="{{ y.id }}" {% if selected and y.id == selected.id %}selected{% endif %}>{{ y.code }}</option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <div id="closing-feedback" class="mb-6"></div>
+
+    {% if checklist %}
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4">{{ _("Closing Checklist") }}</h2>
+
+        {% if checklist.blockers %}
+        <ul class="list-disc ml-6 text-sm text-red-700 mb-4">
+            {% for b in checklist.blockers %}<li>{{ tmsg(b) }}</li>{% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-green-700 font-medium mb-4">{{ _("Ready to close.") }}</p>
+        {% endif %}
+
+        <div class="grid grid-cols-3 gap-4 text-sm tabular-nums mb-4">
+            <div><div class="text-gray-500">{{ _("Total Debit") }}</div><div class="font-bold">{{ checklist.total_debit | fmoney("XAF") }}</div></div>
+            <div><div class="text-gray-500">{{ _("Total Credit") }}</div><div class="font-bold">{{ checklist.total_credit | fmoney("XAF") }}</div></div>
+            <div><div class="text-gray-500">{{ _("Result") }}</div>
+                <div class="font-bold {% if checklist.result >= 0 %}text-green-700{% else %}text-red-700{% endif %}">
+                    {{ checklist.result | fmoney("XAF") }}</div></div>
+        </div>
+
+        <table class="w-full text-sm text-left mb-4">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr><th class="p-2">{{ _("Period") }}</th><th class="p-2">{{ _("Status") }}</th><th class="p-2"></th></tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for p in checklist.periods %}
+                <tr>
+                    <td class="p-2">{{ p.start_date.strftime('%m/%Y') }}</td>
+                    <td class="p-2">{{ _(p.status.value) }}</td>
+                    <td class="p-2 text-right">
+                        {% if p.status.value == "OPEN" %}
+                        <button hx-post="/closing/soft-lock" hx-vals='{"period_id": "{{ p.id }}"}'
+                                hx-target="#closing-feedback"
+                                class="bg-yellow-600 text-white px-2 py-1 rounded text-xs">{{ _("Soft Lock") }}</button>
+                        <a href="/closing/fx?period_id={{ p.id }}"
+                           class="bg-purple-600 text-white px-2 py-1 rounded text-xs ml-2">{{ _("FX Revaluation") }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="flex flex-wrap gap-3 border-t pt-4">
+            <button hx-post="/closing/year/close" hx-vals='{"fiscal_year_id": "{{ selected.id }}"}'
+                    hx-target="#closing-feedback"
+                    hx-confirm="{{ _('Close this fiscal year? This cannot be undone.') }}"
+                    {% if not checklist.ready %}disabled{% endif %}
+                    class="bg-red-600 text-white px-4 py-2 rounded disabled:opacity-50">
+                {{ _("Close Fiscal Year") }}
+            </button>
+            <button hx-post="/closing/year/open-next" hx-vals='{"fiscal_year_id": "{{ selected.id }}"}'
+                    hx-target="#closing-feedback"
+                    class="bg-slate-700 text-white px-4 py-2 rounded">{{ _("Open Next Year") }}</button>
+            <button hx-post="/closing/year/carry-forward" hx-vals='{"fiscal_year_id": "{{ selected.id }}"}'
+                    hx-target="#closing-feedback"
+                    class="bg-blue-600 text-white px-4 py-2 rounded">{{ _("Carry Forward Result") }}</button>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <div class="p-3 bg-slate-100 font-bold text-sm uppercase">{{ _("FX Revaluations") }}</div>
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr><th class="p-3">{{ _("As Of") }}</th><th class="p-3 text-right">{{ _("Latent Loss") }}</th>
+                    <th class="p-3 text-right">{{ _("Latent Gain") }}</th><th class="p-3">{{ _("Reversed") }}</th><th class="p-3"></th></tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for r in runs %}
+                <tr>
+                    <td class="p-3">{{ r.as_of_date.strftime('%d/%m/%Y') }}</td>
+                    <td class="p-3 text-right text-red-700">{{ r.total_latent_loss_base | fmoney("XAF") }}</td>
+                    <td class="p-3 text-right text-green-700">{{ r.total_latent_gain_base | fmoney("XAF") }}</td>
+                    <td class="p-3">{% if r.reversal_entry_id %}{{ _("Yes") }}{% else %}{{ _("No") }}{% endif %}</td>
+                    <td class="p-3 text-right"><a href="/closing/fx/{{ r.id }}" class="text-blue-600 underline">{{ _("Open") }}</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="p-6 text-center text-gray-500 italic">{{ _("No revaluations yet.") }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

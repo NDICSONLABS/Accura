@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold font-mono">{{ bill.reference }}</h1>
+            <p class="text-gray-500">{{ supplier.name }} — {{ bill.description }}</p>
+        </div>
+        <a href="/accruals/bills/" class="text-blue-600 hover:underline">{{ _("Back to Bills") }}</a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-lg shadow mb-6 text-sm tabular-nums">
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Currency") }}</div><div class="font-bold">{{ bill.currency_code }} @ {{ bill.exchange_rate }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Net Payable") }}</div><div class="font-bold">{{ totals.net_payable | fmoney("XAF") }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Paid") }}</div><div class="font-bold">{{ totals.paid | fmoney("XAF") }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Outstanding") }}</div><div class="font-bold text-blue-700">{{ totals.outstanding | fmoney("XAF") }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Status") }}</div><div class="font-bold">{{ _(bill.status.value) }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Payment") }}</div><div class="font-bold">{{ _(totals.payment_status) }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Due Date") }}</div><div>{{ bill.due_date.strftime('%d/%m/%Y') }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Withholding Tax") }}</div><div>{{ totals.withholding_tax | fmoney("XAF") }}</div></div>
+    </div>
+
+    {% if preview %}
+    <div class="bg-white shadow rounded-lg overflow-x-auto mb-6">
+        <div class="p-3 bg-slate-100 font-bold text-sm uppercase">{{ _("Aperçu des Écritures Comptables (GL Preview)") }}</div>
+        <table class="w-full text-sm tabular-nums">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr>
+                    <th class="p-3 text-left">{{ _("Account") }}</th>
+                    <th class="p-3 text-left">{{ _("Description") }}</th>
+                    <th class="p-3 text-right">{{ _("Debit (XAF)") }}</th>
+                    <th class="p-3 text-right">{{ _("Credit (XAF)") }}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for l in preview %}
+                <tr>
+                    <td class="p-3 font-mono">{{ l.account_code }}</td>
+                    <td class="p-3 text-gray-600">{{ l.description }}</td>
+                    <td class="p-3 text-right text-green-700">{% if l.base_debit > 0 %}{{ l.base_debit | fmoney("XAF") }}{% else %}-{% endif %}</td>
+                    <td class="p-3 text-right text-red-700">{% if l.base_credit > 0 %}{{ l.base_credit | fmoney("XAF") }}{% else %}-{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <div id="bill-feedback" class="mb-6"></div>
+
+    <div class="bg-white shadow rounded-lg p-6 flex flex-wrap gap-4">
+        {% if bill.status.value == "DRAFT" %}
+        <button hx-post="/accruals/bills/{{ bill.id }}/post" hx-target="#bill-feedback"
+                hx-confirm="{{ _('Post this bill?') }}"
+                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            {{ _("Post Bill") }}
+        </button>
+        {% endif %}
+
+        {% if bill.journal_entry_id %}
+        <a href="/accounting/journals/{{ bill.journal_entry_id }}" class="bg-slate-700 text-white px-4 py-2 rounded hover:bg-slate-800">
+            {{ _("Open Entry") }}
+        </a>
+        {% endif %}
+
+        {% if bill.status.value == "POSTED" and totals.outstanding > 0 %}
+        <a href="/accruals/settlements/new?third_party_id={{ bill.third_party_id }}"
+           class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            {{ _("Pay This Supplier") }}
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

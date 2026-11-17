@@ -1094,3 +1094,550 @@ msgstr ""
 "Allocation exceeds outstanding balance on bill {reference}. Outstanding: "
 "{outstanding}"
 
+msgid "Donor Grants"
+msgstr "Donor Grants"
+
+msgid "New Grant"
+msgstr "New Grant"
+
+msgid "Donor"
+msgstr "Donor"
+
+msgid "No grant agreements found."
+msgstr "No grant agreements found."
+
+msgid "Restricted Fund"
+msgstr "Restricted Fund"
+
+msgid "Restricted Fund Account"
+msgstr "Restricted Fund Account"
+
+msgid "Committed Amount"
+msgstr "Committed Amount"
+
+msgid "Start Date"
+msgstr "Start Date"
+
+msgid "End Date"
+msgstr "End Date"
+
+msgid "Open Grant"
+msgstr "Open Grant"
+
+msgid "Back to Grants"
+msgstr "Back to Grants"
+
+msgid "Called"
+msgstr "Called"
+
+msgid "Weighted Rate"
+msgstr "Weighted Average Rate"
+
+msgid "Tranches"
+msgstr "Tranches"
+
+msgid "Activate Grant"
+msgstr "Activate Grant"
+
+msgid "New Fund Call"
+msgstr "New Fund Call"
+
+msgid "Expected"
+msgstr "Expected"
+
+msgid "Number"
+msgstr "Number"
+
+msgid "Add Tranche"
+msgstr "Add Tranche"
+
+msgid "No tranches yet."
+msgstr "No tranches yet."
+
+msgid "Fund Calls"
+msgstr "Fund Calls"
+
+msgid "No fund calls yet."
+msgstr "No fund calls yet."
+
+msgid "Post"
+msgstr "Post"
+
+msgid "Record Receipt"
+msgstr "Record Receipt"
+
+msgid "Tranche"
+msgstr "Tranche"
+
+msgid "No tranche link"
+msgstr "No tranche link"
+
+msgid "Call Date"
+msgstr "Call Date"
+
+msgid "Grant Receipt"
+msgstr "Grant Receipt"
+
+msgid "Call Rate"
+msgstr "Call Rate"
+
+msgid "Receipt Date"
+msgstr "Receipt Date"
+
+msgid "Receipt Rate"
+msgstr "Receipt Rate"
+
+msgid "Cash Received"
+msgstr "Cash Received"
+
+msgid "Receivable Cleared"
+msgstr "Receivable Cleared"
+
+msgid "Budget Maintenance"
+msgstr "Budget Maintenance"
+
+msgid "Add Budget Line"
+msgstr "Add Budget Line"
+
+msgid "Approved Amount"
+msgstr "Approved Amount"
+
+msgid "Approved"
+msgstr "Approved"
+
+msgid "Consumed"
+msgstr "Consumed"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete this budget line?"
+msgstr "Delete this budget line?"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "CLOSED"
+msgstr "Closed"
+
+msgid "PLANNED"
+msgstr "Planned"
+
+msgid "CALLED"
+msgstr "Called"
+
+msgid "RECEIVED"
+msgstr "Received"
+
+msgid "PENDING"
+msgstr "Pending"
+
+msgid "PARTIALLY_RECEIVED"
+msgstr "Partially Received"
+
+msgid "Grant agreement created."
+msgstr "Grant agreement created."
+
+msgid "Tranche added."
+msgstr "Tranche added."
+
+msgid "Grant activated."
+msgstr "Grant activated."
+
+msgid "Fund call saved as DRAFT."
+msgstr "Fund call saved as DRAFT."
+
+msgid "Fund call has been POSTED."
+msgstr "Fund call has been POSTED."
+
+msgid "Receipt saved as DRAFT."
+msgstr "Receipt saved as DRAFT."
+
+msgid "Receipt has been POSTED."
+msgstr "Receipt has been POSTED."
+
+msgid "Budget line created."
+msgstr "Budget line created."
+
+msgid "Budget line updated."
+msgstr "Budget line updated."
+
+msgid "Budget line deleted."
+msgstr "Budget line deleted."
+
+msgid "Grant end date cannot precede start date."
+msgstr "Grant end date cannot precede start date."
+
+msgid "Committed amount cannot be negative."
+msgstr "Committed amount cannot be negative."
+
+msgid "Donor fund tracking is not enabled in organization settings."
+msgstr "Donor fund tracking is not enabled in organization settings."
+
+msgid "Donor (Third Party) not found."
+msgstr "Donor (Third Party) not found."
+
+msgid "Fund not found."
+msgstr "Fund not found."
+
+msgid "Grant fund must be a restricted fund."
+msgstr "Grant fund must be a restricted fund."
+
+msgid "Grant currency must match the fund currency."
+msgstr "Grant currency must match the fund currency."
+
+msgid "Restricted fund account must be a postable Class 1 account."
+msgstr "Restricted fund account must be a postable Class 1 account."
+
+msgid "Receivable account must be a postable account requiring a Third Party."
+msgstr "Receivable account must be a postable account requiring a Third Party."
+
+msgid "Grant not found."
+msgstr "Grant not found."
+
+msgid "Tranche amount must be positive."
+msgstr "Tranche amount must be positive."
+
+msgid "Tranche number must be positive."
+msgstr "Tranche number must be positive."
+
+msgid "This tranche number already exists for the grant."
+msgstr "This tranche number already exists for the grant."
+
+msgid "Grant requires at least one tranche before activation."
+msgstr "Grant requires at least one tranche before activation."
+
+msgid "Grant must be ACTIVE before issuing a fund call."
+msgstr "Grant must be ACTIVE before issuing a fund call."
+
+msgid "Fund call amount must be positive."
+msgstr "Fund call amount must be positive."
+
+msgid "Tranche does not belong to this grant."
+msgstr "Tranche does not belong to this grant."
+
+msgid "Only PLANNED tranches can be called."
+msgstr "Only PLANNED tranches can be called."
+
+msgid "Fund call cannot exceed the tranche amount."
+msgstr "Fund call cannot exceed the tranche amount."
+
+msgid "Fund call not found."
+msgstr "Fund call not found."
+
+msgid "Fund call must be in DRAFT status to post."
+msgstr "Fund call must be in DRAFT status to post."
+
+msgid "Grant journal 'SUB' is missing. Run migrations."
+msgstr "Grant journal 'SUB' is missing. Run migrations."
+
+msgid "Only POSTED fund calls can be received."
+msgstr "Only POSTED fund calls can be received."
+
+msgid "Receipt amount must be positive."
+msgstr "Receipt amount must be positive."
+
+msgid "Receipt not found."
+msgstr "Receipt not found."
+
+msgid "Receipt must be in DRAFT status to post."
+msgstr "Receipt must be in DRAFT status to post."
+
+msgid "Approved budget cannot be negative."
+msgstr "Approved budget cannot be negative."
+
+msgid "Budget account is invalid or not postable."
+msgstr "Budget account is invalid or not postable."
+
+msgid ""
+"Budget lines are allowed only on Class 6 (expense) or Class 2 (asset) "
+"accounts."
+msgstr ""
+"Budget lines are allowed only on Class 6 (expense) or Class 2 (asset) "
+"accounts."
+
+msgid "Fiscal year not found."
+msgstr "Fiscal year not found."
+
+msgid "A budget line already exists for this account / fund / project / year."
+msgstr "A budget line already exists for this account / fund / project / year."
+
+msgid "Budget line not found."
+msgstr "Budget line not found."
+
+msgid "Cannot delete a budget line that already has posted consumption."
+msgstr "Cannot delete a budget line that already has posted consumption."
+
+msgid "Cannot delete a budget line referenced by journal entries."
+msgstr "Cannot delete a budget line referenced by journal entries."
+
+#, python-brace-format
+msgid ""
+"Receipt exceeds outstanding fund call {reference}. Outstanding: "
+"{outstanding}"
+msgstr ""
+"Receipt exceeds outstanding fund call {reference}. Outstanding: "
+"{outstanding}"
+
+#, python-brace-format
+msgid ""
+"Approved budget cannot be reduced below posted consumption. Consumed: "
+"{consumed}"
+msgstr ""
+"Approved budget cannot be reduced below posted consumption. Consumed: "
+"{consumed}"
+
+msgid "CSRF validation failed"
+msgstr "CSRF validation failed"
+
+msgid "Too many failed login attempts. Please try again later."
+msgstr "Too many failed login attempts. Please try again later."
+
+msgid "Not authenticated"
+msgstr "Not authenticated"
+
+msgid "User not found"
+msgstr "User not found"
+
+msgid "Insufficient permissions"
+msgstr "Insufficient permissions"
+
+msgid "Audit chain verified."
+msgstr "Audit chain verified."
+
+msgid "Audit chain integrity violation detected."
+msgstr "Audit chain integrity violation detected."
+
+msgid "Closing Engine"
+msgstr "Closing Engine"
+
+msgid "Closing Checklist"
+msgstr "Closing Checklist"
+
+msgid "Ready to close."
+msgstr "Ready to close."
+
+msgid "Soft Lock"
+msgstr "Soft Lock"
+
+msgid "FX Revaluation"
+msgstr "FX Revaluation"
+
+msgid "Close Fiscal Year"
+msgstr "Close Fiscal Year"
+
+msgid "Open Next Year"
+msgstr "Open Next Year"
+
+msgid "Carry Forward Result"
+msgstr "Carry Forward Result"
+
+msgid "Close this fiscal year? This cannot be undone."
+msgstr "Close this fiscal year? This cannot be undone."
+
+msgid "FX Revaluations"
+msgstr "FX Revaluations"
+
+msgid "As Of"
+msgstr "As Of"
+
+msgid "Latent Loss"
+msgstr "Latent Loss"
+
+msgid "Latent Gain"
+msgstr "Latent Gain"
+
+msgid "Reversed"
+msgstr "Reversed"
+
+msgid "Open"
+msgstr "Open"
+
+msgid "No revaluations yet."
+msgstr "No revaluations yet."
+
+msgid "Closing Rates"
+msgstr "Closing Rates"
+
+msgid "Latent Loss Provision (optional)"
+msgstr "Latent Loss Provision (optional)"
+
+msgid ""
+"OHADA requires provisioning latent exchange losses. Supply the policy "
+"accounts to post the provision."
+msgstr ""
+"OHADA requires provisioning latent exchange losses. Supply the policy "
+"accounts to post the provision."
+
+msgid "Provision Expense (Class 6)"
+msgstr "Provision Expense (Class 6)"
+
+msgid "Provision Account (Class 1)"
+msgstr "Provision Account (Class 1)"
+
+msgid "Open Exposures"
+msgstr "Open Exposures"
+
+msgid "Foreign Balance"
+msgstr "Foreign Balance"
+
+msgid "Historical XAF"
+msgstr "Historical XAF"
+
+msgid "No foreign currency exposure at this date."
+msgstr "No foreign currency exposure at this date."
+
+msgid "Run Revaluation"
+msgstr "Run Revaluation"
+
+msgid ""
+"Latent exchange loss is not provisioned. OHADA requires a provision for "
+"latent losses."
+msgstr ""
+"Latent exchange loss is not provisioned. OHADA requires a provision for "
+"latent losses."
+
+msgid "Historical"
+msgstr "Historical"
+
+msgid "Revalued"
+msgstr "Revalued"
+
+msgid "Direction"
+msgstr "Direction"
+
+msgid "Reverse Revaluation"
+msgstr "Reverse Revaluation"
+
+msgid "View Reversal"
+msgstr "View Reversal"
+
+msgid "Open Revaluation"
+msgstr "Open Revaluation"
+
+msgid "Open Result Entry"
+msgstr "Open Result Entry"
+
+msgid "Refresh Dashboard"
+msgstr "Refresh Dashboard"
+
+msgid "Result"
+msgstr "Result"
+
+msgid "LOSS"
+msgstr "Loss"
+
+msgid "GAIN"
+msgstr "Gain"
+
+msgid "SOFT_LOCKED"
+msgstr "Soft Locked"
+
+msgid "Period soft-locked."
+msgstr "Period soft-locked."
+
+msgid "FX revaluation posted."
+msgstr "FX revaluation posted."
+
+msgid "FX revaluation reversed."
+msgstr "FX revaluation reversed."
+
+msgid "Fiscal year closed."
+msgstr "Fiscal year closed."
+
+msgid "Next fiscal year opened."
+msgstr "Next fiscal year opened."
+
+msgid "Result carried forward."
+msgstr "Result carried forward."
+
+msgid "Period is already permanently closed."
+msgstr "Period is already permanently closed."
+
+msgid "Revaluation period must be OPEN."
+msgstr "Revaluation period must be OPEN."
+
+msgid "A previous FX revaluation must be reversed before running a new one."
+msgstr "A previous FX revaluation must be reversed before running a new one."
+
+msgid "At least one closing rate is required."
+msgstr "At least one closing rate is required."
+
+msgid "No foreign currency exposure requires revaluation at these rates."
+msgstr "No foreign currency exposure requires revaluation at these rates."
+
+msgid "Closing journal 'CLOT' is missing. Run migrations."
+msgstr "Closing journal 'CLOT' is missing. Run migrations."
+
+msgid "Translation accounts 478 / 479 are missing. Run migrations."
+msgstr "Translation accounts 478 / 479 are missing. Run migrations."
+
+msgid "Provisioning requires both an expense account and a provision account."
+msgstr "Provisioning requires both an expense account and a provision account."
+
+msgid "Provision expense account must be a postable Class 6 account."
+msgstr "Provision expense account must be a postable Class 6 account."
+
+msgid "Provision account must be a postable Class 1 account."
+msgstr "Provision account must be a postable Class 1 account."
+
+msgid "Revaluation run not found."
+msgstr "Revaluation run not found."
+
+msgid "Only POSTED revaluations can be reversed."
+msgstr "Only POSTED revaluations can be reversed."
+
+msgid "This revaluation has already been reversed."
+msgstr "This revaluation has already been reversed."
+
+msgid "Fiscal year has no accounting periods."
+msgstr "Fiscal year has no accounting periods."
+
+msgid "Fiscal year is already CLOSED."
+msgstr "Fiscal year is already CLOSED."
+
+msgid "All periods except the last must be soft-locked or closed."
+msgstr "All periods except the last must be soft-locked or closed."
+
+msgid "The last period must be OPEN to receive the result entry."
+msgstr "The last period must be OPEN to receive the result entry."
+
+msgid "Trial balance is not balanced."
+msgstr "Trial balance is not balanced."
+
+msgid "Fiscal year is already closed."
+msgstr "Fiscal year is already closed."
+
+msgid "Result account 131 must be postable. Run migrations."
+msgstr "Result account 131 must be postable. Run migrations."
+
+msgid "No management balances to close for this fiscal year."
+msgstr "No management balances to close for this fiscal year."
+
+msgid "Fiscal year code must be numeric to derive the next year."
+msgstr "Fiscal year code must be numeric to derive the next year."
+
+msgid "Fiscal year has not been closed yet."
+msgstr "Fiscal year has not been closed yet."
+
+msgid "Result has already been carried forward."
+msgstr "Result has already been carried forward."
+
+msgid "Open the next fiscal year before carrying forward the result."
+msgstr "Open the next fiscal year before carrying forward the result."
+
+msgid "The next fiscal year has no OPEN period."
+msgstr "The next fiscal year has no OPEN period."
+
+msgid "Retained earnings account 121 must be postable. Run migrations."
+msgstr "Retained earnings account 121 must be postable. Run migrations."
+
+msgid "Result is zero; nothing to carry forward."
+msgstr "Result is zero; nothing to carry forward."
+

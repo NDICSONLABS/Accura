@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("Budget Maintenance") }}</h1>
+
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+        <form method="GET" action="/budget/admin/">
+            <label class="block text-sm font-medium text-gray-700 mb-1">{{ _("Fiscal Year") }}</label>
+            <select name="fy_id" onchange="this.form.submit()" class="block w-40 p-2 border rounded">
+                {% for fy in fiscal_years %}
+                <option value="{{ fy.id }}" {% if fy.id == fy_id %}selected{% endif %}>{{ fy.code }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div id="budget-admin-feedback" class="mb-6"></div>
+
+    <div class="bg-white p-6 rounded-lg shadow mb-6">
+        <h2 class="text-lg font-semibold mb-4">{{ _("Add Budget Line") }}</h2>
+        <form hx-post="/budget/admin/create" hx-target="#budget-admin-feedback" class="flex flex-wrap gap-4 items-end">
+            <input type="hidden" name="fiscal_year_id" value="{{ fy_id }}">
+            <div><label class="block text-xs font-medium">{{ _("Account") }}</label>
+                <select name="account_code" class="w-56 p-2 border rounded">
+                    {% for a in accounts %}<option value="{{ a.code }}">{{ a.code }} — {{ a.label }}</option>{% endfor %}
+                </select></div>
+            <div><label class="block text-xs font-medium">{{ _("Fund") }}</label>
+                <select name="fund_id" class="w-40 p-2 border rounded">
+                    <option value="">{{ _("None") }}</option>
+                    {% for f in funds %}<option value="{{ f.id }}">{{ f.code }}</option>{% endfor %}
+                </select></div>
+            <div><label class="block text-xs font-medium">{{ _("Project") }}</label>
+                <select name="project_id" class="w-40 p-2 border rounded">
+                    <option value="">{{ _("None") }}</option>
+                    {% for p in projects %}<option value="{{ p.id }}">{{ p.code }}</option>{% endfor %}
+                </select></div>
+            <div><label class="block text-xs font-medium">{{ _("Approved Amount") }}</label>
+                <input type="number" step="1" name="approved_amount" required class="w-40 p-2 border rounded text-right tabular-nums"></div>
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">{{ _("Add") }}</button>
+        </form>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3">{{ _("Account") }}</th><th class="p-3">{{ _("Label") }}</th>
+                    <th class="p-3">{{ _("Fund") }}</th><th class="p-3">{{ _("Project") }}</th>
+                    <th class="p-3 text-right">{{ _("Approved") }}</th>
+                    <th class="p-3 text-right">{{ _("Consumed") }}</th>
+                    <th class="p-3 text-right">{{ _("Remaining") }}</th>
+                    <th class="p-3 text-right">{{ _("Actions") }}</th>
+                </tr>
+            </thead>
+            <tbody id="budget-line-rows" class="divide-y divide-gray-200">
+                {% include "budget/_budget_line_rows.html" %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

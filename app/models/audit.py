@@ -15,3 +15,5 @@ class AuditLog(Base):
     action: Mapped[str] = mapped_column(String(50))
     before_state: Mapped[dict | None] = mapped_column(JSON)
     after_state: Mapped[dict | None] = mapped_column(JSON)
+    prev_hash: Mapped[str | None] = mapped_column(String(64))
+    row_hash: Mapped[str | None] = mapped_column(String(64))

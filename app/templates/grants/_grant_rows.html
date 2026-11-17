@@ -1,0 +1,12 @@
+{% for row in rows %}
+<tr class="hover:bg-gray-50">
+    <td class="p-3 font-mono"><a href="/grants/{{ row.grant.id }}" class="text-blue-600 hover:underline">{{ row.grant.code }}</a></td>
+    <td class="p-3">{{ row.grant.label }}</td>
+    <td class="p-3">{{ row.donor.name if row.donor else "-" }}</td>
+    <td class="p-3">{{ row.grant.currency_code }}</td>
+    <td class="p-3 text-right tabular-nums">{{ "{:,.2f}".format(row.grant.total_committed_foreign) }}</td>
+    <td class="p-3">{{ _(row.grant.status.value) }}</td>
+</tr>
+{% else %}
+<tr><td colspan="6" class="p-8 text-center text-gray-500 italic">{{ _("No grant agreements found.") }}</td></tr>
+{% endfor %}

@@ -29,3 +29,21 @@ dev = [
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore:Accessing argon2.__version__ is deprecated:DeprecationWarning",
+]
+
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version = "3.12"
+ignore_missing_imports = true
+warn_unused_ignores = false
+disable_error_code = ["attr-defined", "union-attr", "arg-type", "assignment", "var-annotated"]

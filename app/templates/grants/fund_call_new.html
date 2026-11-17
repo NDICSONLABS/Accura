@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <h1 class="text-2xl font-bold mb-6">{{ _("New Fund Call") }} — {{ grant.code }}</h1>
+    <form hx-post="/grants/fund-calls/create" hx-target="#call-feedback" class="space-y-4 bg-white p-6 rounded-lg shadow">
+        <input type="hidden" name="grant_id" value="{{ grant.id }}">
+        <div>
+            <label class="block text-sm font-medium text-gray-700">{{ _("Tranche") }}</label>
+            <select name="tranche_id" class="mt-1 block w-full p-2 border rounded">
+                <option value="">{{ _("No tranche link") }}</option>
+                {% for t in planned_tranches %}
+                <option value="{{ t.id }}">#{{ t.tranche_number }} — {{ "{:,.2f}".format(t.foreign_amount) }} {{ grant.currency_code }} @ {{ t.exchange_rate }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-sm font-medium text-gray-700">{{ _("Call Date") }}</label>
+                <input type="date" name="call_date" required class="mt-1 block w-full p-2 border rounded"></div>
+            <div><label class="block text-sm font-medium text-gray-700">{{ _("Due Date") }}</label>
+                <input type="date" name="due_date" required class="mt-1 block w-full p-2 border rounded"></div>
+            <div><label class="block text-sm font-medium text-gray-700">{{ _("Reference") }}</label>
+                <input type="text" name="reference" required class="mt-1 block w-full p-2 border rounded"></div>
+            <div><label class="block text-sm font-medium text-gray-700">{{ _("Amount") }} ({{ grant.currency_code }})</label>
+                <input type="number" step="0.01" name="foreign_amount" required class="mt-1 block w-full p-2 border rounded text-right"></div>
+            <div><label class="block text-sm font-medium text-gray-700">{{ _("Rate") }}</label>
+                <input type="text" name="exchange_rate" value="{{ weighted_rate }}" class="mt-1 block w-full p-2 border rounded text-right"></div>
+        </div>
+        <div><label class="block text-sm font-medium text-gray-700">{{ _("Description") }}</label>
+            <input type="text" name="description" required class="mt-1 block w-full p-2 border rounded"></div>
+        <div id="call-feedback"></div>
+        <div class="flex justify-end gap-4">
+            <a href="/grants/{{ grant.id }}" class="px-4 py-2 border rounded">{{ _("Cancel") }}</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">{{ _("Save Draft") }}</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

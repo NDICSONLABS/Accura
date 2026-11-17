@@ -63,6 +63,12 @@ class I18nJinja2Templates(Jinja2Templates):
             context = {}
 
         if request:
+            from app.core.config import settings as app_settings
+            # An explicitly supplied token (e.g. freshly minted on the login page)
+            # must win over the incoming cookie, otherwise form and cookie diverge.
+            if not context.get("csrf_token"):
+                context["csrf_token"] = request.cookies.get(app_settings.CSRF_COOKIE_NAME, "")
+
             context["request"] = request
 
             locale = get_locale(request)

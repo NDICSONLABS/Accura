@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">{{ _("Supplier Bills") }}</h1>
+        <div class="flex gap-3">
+            <a href="/accruals/settlements/new" class="bg-slate-700 text-white px-4 py-2 rounded hover:bg-slate-800">
+                {{ _("New Settlement") }}
+            </a>
+            <a href="/accruals/bills/new" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                + {{ _("New Supplier Bill") }}
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-slate-800 text-white uppercase text-xs">
+                <tr>
+                    <th class="p-3">{{ _("Reference") }}</th>
+                    <th class="p-3">{{ _("Supplier") }}</th>
+                    <th class="p-3">{{ _("Date") }}</th>
+                    <th class="p-3">{{ _("Currency") }}</th>
+                    <th class="p-3 text-right">{{ _("Net Payable") }}</th>
+                    <th class="p-3 text-right">{{ _("Outstanding") }}</th>
+                    <th class="p-3">{{ _("Status") }}</th>
+                    <th class="p-3">{{ _("Payment") }}</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% include "accruals/bills/_bill_rows.html" %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

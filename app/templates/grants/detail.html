@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <div>
+            <h1 class="text-2xl font-bold font-mono">{{ grant.code }}</h1>
+            <p class="text-gray-500">{{ grant.label }} — {{ donor.name }}</p>
+        </div>
+        <a href="/grants/" class="text-blue-600 hover:underline">{{ _("Back to Grants") }}</a>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-white p-6 rounded-lg shadow mb-6 text-sm tabular-nums">
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Currency") }}</div><div class="font-bold">{{ grant.currency_code }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Committed") }}</div><div class="font-bold">{{ "{:,.2f}".format(grant.total_committed_foreign) }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Called") }}</div><div class="font-bold">{{ "{:,.2f}".format(called_foreign) }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Weighted Rate") }}</div><div class="font-bold text-blue-700">{{ weighted_rate }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Fund") }}</div><div>{{ fund.code }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Fund Account") }}</div><div class="font-mono">{{ fund_account.code }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Receivable Account") }}</div><div class="font-mono">{{ receivable_account.code }}</div></div>
+        <div><div class="text-gray-500 text-xs uppercase">{{ _("Status") }}</div><div class="font-bold">{{ _(grant.status.value) }}</div></div>
+    </div>
+
+    <div id="grant-feedback" class="mb-6"></div>
+
+    <div class="bg-white shadow rounded-lg p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">{{ _("Tranches") }}</h2>
+            {% if grant.status.value == "DRAFT" %}
+            <button hx-post="/grants/activate" hx-vals='{"grant_id": "{{ grant.id }}"}' hx-target="#grant-feedback"
+                    class="bg-slate-700 text-white px-3 py-1.5 rounded text-sm">{{ _("Activate Grant") }}</button>
+            {% else %}
+            <a href="/grants/fund-calls/new?grant_id={{ grant.id }}" class="bg-blue-600 text-white px-3 py-1.5 rounded text-sm">{{ _("New Fund Call") }}</a>
+            {% endif %}
+        </div>
+
+        <table class="w-full text-sm text-left tabular-nums mb-4">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr><th class="p-2">#</th><th class="p-2">{{ _("Expected") }}</th>
+                    <th class="p-2 text-right">{{ _("Amount") }}</th><th class="p-2 text-right">{{ _("Rate") }}</th>
+                    <th class="p-2">{{ _("Status") }}</th></tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for t in tranches %}
+                <tr><td class="p-2">{{ t.tranche_number }}</td><td class="p-2">{{ t.expected_date.strftime('%d/%m/%Y') }}</td>
+                    <td class="p-2 text-right">{{ "{:,.2f}".format(t.foreign_amount) }}</td>
+                    <td class="p-2 text-right">{{ t.exchange_rate }}</td><td class="p-2">{{ _(t.status.value) }}</td></tr>
+                {% else %}
+                <tr><td colspan="5" class="p-4 text-center text-gray-500 italic">{{ _("No tranches yet.") }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <form hx-post="/grants/tranches/create" hx-target="#grant-feedback" class="flex flex-wrap gap-3 items-end border-t pt-4">
+            <input type="hidden" name="grant_id" value="{{ grant.id }}">
+            <div><label class="block text-xs font-medium">{{ _("Number") }}</label>
+                <input type="number" name="tranche_number" required class="w-20 p-1.5 border rounded"></div>
+            <div><label class="block text-xs font-medium">{{ _("Expected") }}</label>
+                <input type="date" name="expected_date" required class="w-40 p-1.5 border rounded"></div>
+            <div><label class="block text-xs font-medium">{{ _("Amount") }}</label>
+                <input type="number" step="0.01" name="foreign_amount" required class="w-36 p-1.5 border rounded text-right"></div>
+            <div><label class="block text-xs font-medium">{{ _("Rate") }}</label>
+                <input type="text" name="exchange_rate" value="1.000000" class="w-32 p-1.5 border rounded text-right"></div>
+            <button type="submit" class="bg-slate-700 text-white px-3 py-1.5 rounded text-sm">{{ _("Add Tranche") }}</button>
+        </form>
+    </div>
+
+    <div class="bg-white shadow rounded-lg overflow-x-auto">
+        <div class="p-3 bg-slate-100 font-bold text-sm uppercase">{{ _("Fund Calls") }}</div>
+        <table class="w-full text-sm text-left tabular-nums">
+            <thead class="bg-slate-800 text-white text-xs uppercase">
+                <tr><th class="p-3">{{ _("Reference") }}</th><th class="p-3">{{ _("Date") }}</th>
+                    <th class="p-3 text-right">{{ _("Amount") }}</th><th class="p-3 text-right">{{ _("Outstanding") }}</th>
+                    <th class="p-3">{{ _("Status") }}</th><th class="p-3"></th></tr>
+            </thead>
+            <tbody class="divide-y">
+                {% for row in call_rows %}
+                <tr>
+                    <td class="p-3 font-mono">{{ row.call.reference }}</td>
+                    <td class="p-3">{{ row.call.call_date.strftime('%d/%m/%Y') }}</td>
+                    <td class="p-3 text-right">{{ "{:,.2f}".format(row.call.foreign_amount) }}</td>
+                    <td class="p-3 text-right">{{ row.outstanding.outstanding_base | fmoney("XAF") }}</td>
+                    <td class="p-3">{{ _(row.call.status.value) }} / {{ _(row.outstanding.payment_status) }}</td>
+                    <td class="p-3 text-right">
+                        {% if row.call.status.value == "DRAFT" %}
+                        <button hx-post="/grants/fund-calls/post"
+                                hx-vals='{"call_id": "{{ row.call.id }}", "grant_id": "{{ grant.id }}"}'
+                                hx-target="#grant-feedback" class="bg-blue-600 text-white px-3 py-1 rounded text-xs">
+                            {{ _("Post") }}
+                        </button>
+                        {% elif row.outstanding.outstanding_base > 0 %}
+                        <a href="/grants/receipts/new?call_id={{ row.call.id }}" class="bg-green-600 text-white px-3 py-1 rounded text-xs">
+                            {{ _("Record Receipt") }}
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" class="p-6 text-center text-gray-500 italic">{{ _("No fund calls yet.") }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

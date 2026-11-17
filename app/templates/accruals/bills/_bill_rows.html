@@ -1,0 +1,16 @@
+{% for row in rows %}
+<tr class="hover:bg-gray-50">
+    <td class="p-3 font-mono">
+        <a href="/accruals/bills/{{ row.bill.id }}" class="text-blue-600 hover:underline">{{ row.bill.reference }}</a>
+    </td>
+    <td class="p-3">{{ row.supplier.name if row.supplier else "-" }}</td>
+    <td class="p-3">{{ row.bill.bill_date.strftime('%d/%m/%Y') }}</td>
+    <td class="p-3">{{ row.bill.currency_code }}</td>
+    <td class="p-3 text-right tabular-nums">{{ row.totals.net_payable | fmoney("XAF") }}</td>
+    <td class="p-3 text-right tabular-nums">{{ row.totals.outstanding | fmoney("XAF") }}</td>
+    <td class="p-3">{{ _(row.bill.status.value) }}</td>
+    <td class="p-3">{{ _(row.totals.payment_status) }}</td>
+</tr>
+{% else %}
+<tr><td colspan="8" class="p-8 text-center text-gray-500 italic">{{ _("No supplier bills found.") }}</td></tr>
+{% endfor %}
